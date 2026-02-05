@@ -538,7 +538,7 @@
                     <img src="${user.avatar}" alt="Avatar" class="welcome-avatar">
                     <div class="welcome-info">
                         <h1>مرحباً، <span>${user.globalName || user.username}</span>!</h1>
-                        <p>هذه لوحة التحكم الخاصة بك في سيرفر MTRP</p>
+                        <p>هذه لوحة التحكم الخاصة بك في سيرفر MC State</p>
                         <div class="discord-badge">
                             <i class="fab fa-discord"></i>
                             <span>متصل بـ Discord</span>
@@ -671,13 +671,13 @@
                     {
                         name: cars[seed % cars.length],
                         color: colors[seed % colors.length],
-                        plate: `MTRP ${seed % 999}`,
+                        plate: `MC State ${seed % 999}`,
                         fuel: Math.floor((seed % 60) + 40)
                     },
                     {
                         name: cars[(seed + 3) % cars.length],
                         color: colors[(seed + 2) % colors.length],
-                        plate: `MTRP ${(seed + 100) % 999}`,
+                        plate: `MC State ${(seed + 100) % 999}`,
                         fuel: Math.floor(((seed + 20) % 60) + 40)
                     }
                 ],
