@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTRP - لوحة اللاعب</title>
+    <link rel="icon" href="./logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --color-bg-dark: #0b0f14;
+            --color-bg-card: rgba(20, 25, 35, 0.9);
+            --color-primary: #ff8800;
+            --color-primary-hover: #ffaa00;
+            --color-text-main: #ffffff;
+            --color-text-muted: #b0b0b0;
+            --font-main: 'Tajawal', sans-serif;
+            --font-heading: 'Almarai', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--color-bg-dark);
+            background-image: 
+                radial-gradient(ellipse at top, rgba(255, 136, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(255, 136, 0, 0.05) 0%, transparent 50%);
+            color: var(--color-text-main);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 136, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 136, 0, 0.1);
+            padding: 8px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 136, 0, 0.3);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--color-primary);
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: var(--color-bg-card);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 136, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .welcome-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--color-primary);
+            box-shadow: 0 0 30px rgba(255, 136, 0, 0.4);
+        }
+
+        .welcome-info h1 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-info h1 span {
+            color: var(--color-primary);
+        }
+
+        .welcome-info p {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+        }
+
+        .discord-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #5865F2;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--color-bg-card);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 136, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-primary);
+            box-shadow: 0 10px 30px rgba(255, 136, 0, 0.2);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.money { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .stat-icon.bank { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .stat-icon.cars { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .stat-icon.hours { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .stat-icon.job { background: linear-gradient(135deg, #f39c12, #d68910); }
+        .stat-icon.level { background: linear-gradient(135deg, #ff8800, #cc6d00); }
+
+        .stat-label {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: var(--font-heading);
+            color: #fff;
+        }
+
+        .stat-value.money-value { color: #2ecc71; }
+        .stat-value.bank-value { color: #3498db; }
+
+        /* Vehicles Section */
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--color-primary);
+        }
+
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .vehicle-card {
+            background: var(--color-bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 136, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-primary);
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: rgba(255, 136, 0, 0.3);
+        }
+
+        .vehicle-info {
+            padding: 20px;
+        }
+
+        .vehicle-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .vehicle-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .vehicle-detail {
+            background: rgba(255, 136, 0, 0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .vehicle-detail i {
+            color: var(--color-primary);
+            margin-left: 5px;
+        }
+
+        /* Properties Section */
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .property-card {
+            background: var(--color-bg-card);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 136, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .property-card:hover {
+            border-color: var(--color-primary);
+        }
+
+        .property-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8800, #cc6d00);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .property-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .property-info p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Quick Actions */
+        .actions-section {
+            background: var(--color-bg-card);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 136, 0, 0.15);
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .action-btn {
+            background: rgba(255, 136, 0, 0.1);
+            border: 1px solid rgba(255, 136, 0, 0.3);
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--color-primary);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .action-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* Demo Notice */
+        .demo-notice {
+            background: linear-gradient(135deg, rgba(255, 136, 0, 0.1), rgba(255, 170, 0, 0.05));
+            border: 1px dashed var(--color-primary);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .demo-notice i {
+            color: var(--color-primary);
+            font-size: 1.5rem;
+        }
+
+        .demo-notice p {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        .demo-notice strong {
+            color: var(--color-primary);
+        }
+
+        /* Not Logged In */
+        .not-logged {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .not-logged i {
+            font-size: 5rem;
+            color: var(--color-primary);
+            margin-bottom: 30px;
+        }
+
+        .not-logged h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .not-logged p {
+            color: var(--color-text-muted);
+            margin-bottom: 30px;
+        }
+
+        .login-btn {
+            background: var(--color-primary);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-main);
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .welcome-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .main-container {
+                padding: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .vehicles-grid,
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="./index.html" class="logo">MTRP</a>
+        <div class="header-actions" id="header-actions">
+            <!-- سيتم ملؤها بـ JavaScript -->
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container" id="main-content">
+        <!-- سيتم ملؤها بـ JavaScript -->
+    </main>
+
+    <script>
+        // التحقق من تسجيل الدخول وعرض المحتوى
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('mtrp_login') === 'true';
+            const userData = localStorage.getItem('mtrp_user');
+            
+            if (isLoggedIn && userData) {
+                const user = JSON.parse(userData);
+                showDashboard(user);
+            } else {
+                showNotLoggedIn();
+            }
+        });
+
+        // عرض لوحة التحكم
+        function showDashboard(user) {
+            // Header
+            document.getElementById('header-actions').innerHTML = `
+                <div class="user-info">
+                    <img src="${user.avatar}" alt="Avatar" class="user-avatar">
+                    <span class="user-name">${user.globalName || user.username}</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> تسجيل خروج
+                </button>
+            `;
+
+            // بيانات تجريبية للاعب
+            const playerData = generateDemoData(user);
+
+            // Main Content
+            document.getElementById('main-content').innerHTML = `
+                <!-- إشعار تجريبي -->
+                <div class="demo-notice">
+                    <i class="fas fa-info-circle"></i>
+                    <p><strong>وضع تجريبي:</strong> هذه بيانات وهمية للعرض فقط. عند ربط الموقع بسيرفر FiveM حقيقي، ستظهر بياناتك الفعلية.</p>
+                </div>
+
+                <!-- قسم الترحيب -->
+                <section class="welcome-section">
+                    <img src="${user.avatar}" alt="Avatar" class="welcome-avatar">
+                    <div class="welcome-info">
+                        <h1>مرحباً، <span>${user.globalName || user.username}</span>!</h1>
+                        <p>هذه لوحة التحكم الخاصة بك في سيرفر MTRP</p>
+                        <div class="discord-badge">
+                            <i class="fab fa-discord"></i>
+                            <span>متصل بـ Discord</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- إحصائيات اللاعب -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon money"><i class="fas fa-wallet"></i></div>
+                            <span class="stat-label">الكاش</span>
+                        </div>
+                        <div class="stat-value money-value">$${playerData.cash.toLocaleString()}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon bank"><i class="fas fa-university"></i></div>
+                            <span class="stat-label">البنك</span>
+                        </div>
+                        <div class="stat-value bank-value">$${playerData.bank.toLocaleString()}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon cars"><i class="fas fa-car"></i></div>
+                            <span class="stat-label">السيارات</span>
+                        </div>
+                        <div class="stat-value">${playerData.vehicles.length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon hours"><i class="fas fa-clock"></i></div>
+                            <span class="stat-label">ساعات اللعب</span>
+                        </div>
+                        <div class="stat-value">${playerData.playTime}h</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon job"><i class="fas fa-briefcase"></i></div>
+                            <span class="stat-label">الوظيفة</span>
+                        </div>
+                        <div class="stat-value" style="font-size: 1.3rem;">${playerData.job}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon level"><i class="fas fa-star"></i></div>
+                            <span class="stat-label">المستوى</span>
+                        </div>
+                        <div class="stat-value">${playerData.level}</div>
+                    </div>
+                </div>
+
+                <!-- السيارات -->
+                <h2 class="section-title"><i class="fas fa-car"></i> سياراتك</h2>
+                <div class="vehicles-grid">
+                    ${playerData.vehicles.map(vehicle => `
+                        <div class="vehicle-card">
+                            <div class="vehicle-image">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                            <div class="vehicle-info">
+                                <h3 class="vehicle-name">${vehicle.name}</h3>
+                                <div class="vehicle-details">
+                                    <span class="vehicle-detail"><i class="fas fa-palette"></i> ${vehicle.color}</span>
+                                    <span class="vehicle-detail"><i class="fas fa-id-card"></i> ${vehicle.plate}</span>
+                                    <span class="vehicle-detail"><i class="fas fa-gas-pump"></i> ${vehicle.fuel}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- العقارات -->
+                <h2 class="section-title"><i class="fas fa-home"></i> عقاراتك</h2>
+                <div class="properties-grid">
+                    ${playerData.properties.map(prop => `
+                        <div class="property-card">
+                            <div class="property-icon">
+                                <i class="fas ${prop.icon}"></i>
+                            </div>
+                            <div class="property-info">
+                                <h3>${prop.name}</h3>
+                                <p>${prop.location}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- إجراءات سريعة -->
+                <h2 class="section-title"><i class="fas fa-bolt"></i> إجراءات سريعة</h2>
+                <section class="actions-section">
+                    <div class="actions-grid">
+                        <button class="action-btn" onclick="showNotification('هذه الميزة قيد التطوير')">
+                            <i class="fas fa-exchange-alt"></i> تحويل أموال
+                        </button>
+                        <button class="action-btn" onclick="showNotification('هذه الميزة قيد التطوير')">
+                            <i class="fas fa-file-alt"></i> تقديم شكوى
+                        </button>
+                        <button class="action-btn" onclick="showNotification('هذه الميزة قيد التطوير')">
+                            <i class="fas fa-briefcase"></i> التقديم على وظيفة
+                        </button>
+                        <button class="action-btn" onclick="showNotification('هذه الميزة قيد التطوير')">
+                            <i class="fas fa-cog"></i> إعدادات الحساب
+                        </button>
+                    </div>
+                </section>
+            `;
+        }
+
+        // توليد بيانات تجريبية
+        function generateDemoData(user) {
+            // استخدام ID المستخدم لتوليد بيانات "ثابتة" لكل مستخدم
+            const seed = user.id ? parseInt(user.id.slice(-4), 16) : Math.random() * 10000;
+            
+            const jobs = ['عاطل', 'شرطي', 'مسعف', 'ميكانيكي', 'سائق تاكسي', 'رجل أعمال', 'محامي'];
+            const colors = ['أسود', 'أبيض', 'أحمر', 'أزرق', 'فضي', 'ذهبي'];
+            const cars = [
+                'Mercedes S-Class', 'BMW M5', 'Audi RS7', 'Porsche 911',
+                'Lamborghini Urus', 'Range Rover', 'Toyota Supra', 'Nissan GTR'
+            ];
+
+            return {
+                cash: Math.floor((seed % 100000) + 5000),
+                bank: Math.floor((seed % 500000) + 50000),
+                playTime: Math.floor((seed % 500) + 10),
+                job: jobs[seed % jobs.length],
+                level: Math.floor((seed % 50) + 1),
+                vehicles: [
+                    {
+                        name: cars[seed % cars.length],
+                        color: colors[seed % colors.length],
+                        plate: `MTRP ${seed % 999}`,
+                        fuel: Math.floor((seed % 60) + 40)
+                    },
+                    {
+                        name: cars[(seed + 3) % cars.length],
+                        color: colors[(seed + 2) % colors.length],
+                        plate: `MTRP ${(seed + 100) % 999}`,
+                        fuel: Math.floor(((seed + 20) % 60) + 40)
+                    }
+                ],
+                properties: [
+                    {
+                        name: 'شقة فاخرة',
+                        location: 'حي الروضة، شارع الملك',
+                        icon: 'fa-building'
+                    },
+                    {
+                        name: 'كراج خاص',
+                        location: 'المنطقة الصناعية',
+                        icon: 'fa-warehouse'
+                    }
+                ]
+            };
+        }
+
+        // عرض صفحة عدم تسجيل الدخول
+        function showNotLoggedIn() {
+            document.getElementById('header-actions').innerHTML = `
+                <button class="login-btn" onclick="window.location.href='./index.html'">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+            `;
+
+            document.getElementById('main-content').innerHTML = `
+                <div class="not-logged">
+                    <i class="fas fa-user-lock"></i>
+                    <h2>يجب تسجيل الدخول</h2>
+                    <p>سجل دخولك باستخدام Discord للوصول إلى لوحة التحكم الخاصة بك</p>
+                    <button class="login-btn" onclick="window.location.href='./index.html'">
+                        <i class="fab fa-discord"></i> تسجيل الدخول بـ Discord
+                    </button>
+                </div>
+            `;
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            localStorage.removeItem('mtrp_user');
+            localStorage.removeItem('mtrp_login');
+            localStorage.removeItem('mtrp_discord_token');
+            window.location.href = './index.html';
+        }
+
+        // إشعار
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--color-primary);
+                color: #000;
+                padding: 15px 30px;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 10000;
+                animation: slideDown 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
