@@ -2900,7 +2900,16 @@
         const clientId = '1468967581645013215';
         
         // غيّر هذا الرابط لرابط موقعك
-        const redirectUri = encodeURIComponent(window.location.origin + '/mtrp/callback.html');
+        const redirectUri = encodeURIComponent(window.location.origin + '/cfw/callback.html');
+```
+
+---
+
+واضغط **"Commit changes"**
+
+وتأكد إن الـ Redirect URI في Discord هو:
+```
+https://ksawep.github.io/cfw/callback.html
         // ============================================
         
         const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=identify%20email&prompt=consent`;
