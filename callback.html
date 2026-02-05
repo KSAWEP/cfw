@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTRP - جاري التحقق...</title>
+    <title>MC State - جاري التحقق...</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -31,7 +31,7 @@
             width: 60px;
             height: 60px;
             border: 4px solid rgba(255, 136, 0, 0.2);
-            border-top-color: #ff8800;
+            border-top-color: #00d4aa;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 30px;
@@ -42,7 +42,7 @@
         }
         
         h2 {
-            color: #ff8800;
+            color: #00d4aa;
             margin-bottom: 15px;
             font-size: 1.5rem;
         }
@@ -67,7 +67,7 @@
         }
         
         .retry-btn {
-            background: #ff8800;
+            background: #00d4aa;
             color: #000;
             border: none;
             padding: 12px 30px;
@@ -140,9 +140,9 @@
                 };
                 
                 // حفظ البيانات في localStorage
-                localStorage.setItem('mtrp_user', JSON.stringify(user));
-                localStorage.setItem('mtrp_login', 'true');
-                localStorage.setItem('mtrp_discord_token', accessToken);
+                localStorage.setItem('mcstate_user', JSON.stringify(user));
+                localStorage.setItem('mcstate_login', 'true');
+                localStorage.setItem('mcstate_discord_token', accessToken);
                 
                 // تحديث الحالة
                 document.getElementById('status-title').textContent = 'تم تسجيل الدخول بنجاح! ✅';

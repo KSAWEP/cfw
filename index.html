@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MTRP</title>
+  <title>MC State</title>
   <link rel="icon" href="./logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
@@ -11,10 +11,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root {
-      --color-bg-dark: #0b0f14;
+      --color-bg-dark: #0a0f14;
       --color-bg-card: rgba(2, 2, 3, 0.595);
-      --color-primary: #ff8800;
-      --color-primary-hover: #ffaa00;
+      --color-primary: #00d4aa;
+      --color-primary-hover: #00f5c4;
+      --color-secondary: #8a9197;
       --color-text-main: #ffffff;
       --color-text-muted: #b0b0b0;
       --font-main: 'Tajawal', sans-serif;
@@ -39,14 +40,14 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: linear-gradient(to bottom, var(--color-primary), #ffaa00);
+      background: linear-gradient(to bottom, var(--color-primary), #00f5c4);
       border-radius: 6px;
       border: 2px solid #0a0a0a;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(to bottom, #ffaa00, var(--color-primary));
-      box-shadow: 0 0 10px rgba(255, 136, 0, 0.5);
+      background: linear-gradient(to bottom, #00f5c4, var(--color-primary));
+      box-shadow: 0 0 10px rgba(0, 212, 170, 0.5);
     }
 
     body {
@@ -106,7 +107,7 @@
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 136, 0, 0.6) 0%, rgba(255, 136, 0, 0.3) 40%, transparent 70%);
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.6) 0%, rgba(0, 212, 170, 0.3) 40%, transparent 70%);
       pointer-events: none;
       z-index: 9998;
       transform: translate(-50%, -50%);
@@ -153,7 +154,7 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #ff8800 0%, #d87604 100%);
+      background: linear-gradient(135deg, #00d4aa 0%, #d87604 100%);
       clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
       transition: clip-path 0.8s cubic-bezier(0.77, 0, 0.175, 1);
     }
@@ -191,10 +192,10 @@
       left: 0;
       width: 0%;
       height: 4px;
-      background: linear-gradient(90deg, var(--color-primary), #ffaa00);
+      background: linear-gradient(90deg, var(--color-primary), #00f5c4);
       z-index: 10000;
       transition: width 0.1s ease-out;
-      box-shadow: 0 0 15px rgba(255, 136, 0, 0.6);
+      box-shadow: 0 0 15px rgba(0, 212, 170, 0.6);
     }
 
     .particles {
@@ -212,7 +213,7 @@
       position: absolute;
       width: 3px;
       height: 3px;
-      background: rgba(255, 136, 0, 0.3);
+      background: rgba(0, 212, 170, 0.3);
       border-radius: 50%;
       animation: float 15s infinite ease-in-out;
     }
@@ -277,7 +278,7 @@
       position: absolute;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(255, 136, 0, 0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%);
       animation: rotateGradient 8s linear infinite;
     }
 
@@ -317,7 +318,7 @@
     .loader-logo span:nth-child(2) { 
       animation-delay: 0.2s;
       color: var(--color-primary);
-      text-shadow: 0 0 20px rgba(255, 136, 0, 0.8), 0 0 40px rgba(255, 136, 0, 0.5);
+      text-shadow: 0 0 20px rgba(0, 212, 170, 0.8), 0 0 40px rgba(0, 212, 170, 0.5);
     }
     .loader-logo span:nth-child(3) { animation-delay: 0.3s; }
     .loader-logo span:nth-child(4) { animation-delay: 0.4s; }
@@ -374,7 +375,7 @@
       height: 12px;
       background: var(--color-primary);
       border-radius: 50%;
-      box-shadow: 0 0 15px rgba(255, 136, 0, 0.8), 0 0 30px rgba(255, 136, 0, 0.4);
+      box-shadow: 0 0 15px rgba(0, 212, 170, 0.8), 0 0 30px rgba(0, 212, 170, 0.4);
     }
 
     .circle-dot.dot-1 {
@@ -397,7 +398,7 @@
       border-radius: 50%;
       border-top-color: transparent;
       border-right-color: transparent;
-      box-shadow: 0 0 10px rgba(255, 136, 0, 0.3);
+      box-shadow: 0 0 10px rgba(0, 212, 170, 0.3);
     }
 
     .circle-segment.seg-1 {
@@ -470,7 +471,7 @@
     header.scrolled {
       background: rgba(5, 7, 10, 0.95);
       padding: 15px 0;
-      border-bottom: 1px solid rgba(255, 136, 0, 0.3);
+      border-bottom: 1px solid rgba(0, 212, 170, 0.3);
       backdrop-filter: blur(10px);
     }
 
@@ -490,7 +491,7 @@
       background: url('./logo.png') center/cover;
       border: 2px solid var(--color-primary);
       border-radius: 50%;
-      box-shadow: 0 0 15px rgba(255, 136, 0, 0.4);
+      box-shadow: 0 0 15px rgba(0, 212, 170, 0.4);
       position: relative;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -498,7 +499,7 @@
 
     .logo-circle:hover {
       transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 0 25px rgba(255, 136, 0, 0.6);
+      box-shadow: 0 0 25px rgba(0, 212, 170, 0.6);
     }
 
     .logo-circle::after {
@@ -509,7 +510,7 @@
       right: -5px;
       bottom: -5px;
       border-radius: 50%;
-      border: 1px dashed rgba(255, 136, 0, 0.3);
+      border: 1px dashed rgba(0, 212, 170, 0.3);
       animation: spin 10s linear infinite;
     }
 
@@ -553,7 +554,7 @@
     }
 
     .btn-angled {
-      background: linear-gradient(45deg, rgba(255, 136, 0, 0.1), transparent);
+      background: linear-gradient(45deg, rgba(0, 212, 170, 0.1), transparent);
       color: var(--color-primary);
       padding: 12px 35px;
       font-weight: 800;
@@ -589,7 +590,7 @@
       background: var(--color-primary);
       color: #000;
       transform: translate(-3px, -3px) scale(1.02);
-      box-shadow: 5px 5px 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 136, 0, 0.4);
+      box-shadow: 5px 5px 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(0, 212, 170, 0.4);
     }
 
     .btn-angled:active {
@@ -692,7 +693,7 @@
       background: var(--color-primary);
       color: #000;
       border-color: var(--color-primary);
-      box-shadow: 0 0 30px rgba(255, 136, 0, 0.4);
+      box-shadow: 0 0 30px rgba(0, 212, 170, 0.4);
       animation: fadeInUp 1s ease-out 0.3s backwards;
       position: relative;
       overflow: hidden;
@@ -718,7 +719,7 @@
 
     .hero-btn:hover {
       transform: translate(-2px, -2px) scale(1.05);
-      box-shadow: 0 0 50px rgba(255, 136, 0, 0.6), 4px 4px 0 rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 50px rgba(0, 212, 170, 0.6), 4px 4px 0 rgba(255, 255, 255, 0.1);
     }
 
     @keyframes fadeInUp {
@@ -815,7 +816,7 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, rgba(255, 136, 0, 0.1) 0%, transparent 100%);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, transparent 100%);
       opacity: 0.3;
     }
 
@@ -861,8 +862,8 @@
 
     .founder-card-new:hover {
       transform: translateY(-20px) scale(1.02);
-      box-shadow: 0 25px 50px rgba(255, 136, 0, 0.2), 0 0 30px rgba(255, 136, 0, 0.1);
-      border-color: rgba(255, 136, 0, 0.4);
+      box-shadow: 0 25px 50px rgba(0, 212, 170, 0.2), 0 0 30px rgba(0, 212, 170, 0.1);
+      border-color: rgba(0, 212, 170, 0.4);
     }
 
     .founder-card-new::before {
@@ -903,7 +904,7 @@
 
     .founder-card-new:hover .founder-img-new {
       transform: translateX(-50%) translateY(-10px) rotate(5deg);
-      box-shadow: 0 20px 40px rgba(255, 136, 0, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 212, 170, 0.3);
       border-color: var(--color-primary);
     }
 
@@ -968,8 +969,8 @@
 
     .job-card:hover {
       transform: translateY(-10px);
-      border-color: rgba(255, 136, 0, 0.3);
-      box-shadow: 0 20px 40px rgba(255, 136, 0, 0.15);
+      border-color: rgba(0, 212, 170, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 212, 170, 0.15);
     }
 
     .job-logo-bg {
@@ -1039,9 +1040,9 @@
     }
 
     .job-apply-btn:hover {
-      background: #ffaa00;
+      background: #00f5c4;
       transform: translateX(-5px);
-      box-shadow: 0 5px 20px rgba(255, 136, 0, 0.4);
+      box-shadow: 0 5px 20px rgba(0, 212, 170, 0.4);
     }
 
     .job-apply-btn i { transition: transform 0.3s ease; }
@@ -1063,7 +1064,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 20% 50%, rgba(255, 136, 0, 0.1) 0%, transparent 50%);
+      background: radial-gradient(circle at 20% 50%, rgba(0, 212, 170, 0.1) 0%, transparent 50%);
       pointer-events: none;
     }
 
@@ -1080,7 +1081,7 @@
       padding: 40px 30px;
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255, 136, 0, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.1);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       text-align: center;
       backdrop-filter: blur(10px);
@@ -1088,8 +1089,8 @@
 
     .social-card:hover {
       transform: translateY(-15px) scale(1.03);
-      border-color: rgba(255, 136, 0, 0.4);
-      box-shadow: 0 25px 50px rgba(255, 136, 0, 0.15), 0 0 40px rgba(255, 136, 0, 0.1);
+      border-color: rgba(0, 212, 170, 0.4);
+      box-shadow: 0 25px 50px rgba(0, 212, 170, 0.15), 0 0 40px rgba(0, 212, 170, 0.1);
     }
 
     .social-card::before {
@@ -1099,7 +1100,7 @@
       left: 0;
       width: 100%;
       height: 5px;
-      background: linear-gradient(90deg, var(--color-primary), #ffaa00);
+      background: linear-gradient(90deg, var(--color-primary), #00f5c4);
       opacity: 0;
       transition: opacity 0.3s ease;
     }
@@ -1159,20 +1160,20 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255, 136, 0, 0.1);
+      background: rgba(0, 212, 170, 0.1);
       color: var(--color-primary);
       padding: 12px 25px;
       border-radius: 8px;
       font-weight: 600;
       transition: all 0.3s ease;
-      border: 1px solid rgba(255, 136, 0, 0.3);
+      border: 1px solid rgba(0, 212, 170, 0.3);
     }
 
     .social-btn:hover {
       background: var(--color-primary);
       color: #000;
       transform: translateX(-5px);
-      box-shadow: 0 5px 15px rgba(255, 136, 0, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 212, 170, 0.3);
     }
 
     /* ===== زر الصعود للأعلى ===== */
@@ -1182,7 +1183,7 @@
       right: 30px;
       width: 60px;
       height: 60px;
-      background: linear-gradient(135deg, var(--color-primary), #ffaa00);
+      background: linear-gradient(135deg, var(--color-primary), #00f5c4);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -1195,7 +1196,7 @@
       visibility: hidden;
       transform: translateY(20px);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 5px 20px rgba(255, 136, 0, 0.3);
+      box-shadow: 0 5px 20px rgba(0, 212, 170, 0.3);
       border: none;
     }
 
@@ -1207,7 +1208,7 @@
 
     .back-to-top:hover {
       transform: translateY(-5px) scale(1.1);
-      box-shadow: 0 10px 30px rgba(255, 136, 0, 0.5);
+      box-shadow: 0 10px 30px rgba(0, 212, 170, 0.5);
     }
 
     .back-to-top:active {
@@ -1218,7 +1219,7 @@
     footer {
       background: linear-gradient(to top, #050608, #0a0c0f);
       padding: 60px 0 30px;
-      border-top: 1px solid rgba(255, 136, 0, 0.2);
+      border-top: 1px solid rgba(0, 212, 170, 0.2);
       position: relative;
     }
 
@@ -1306,7 +1307,7 @@
         flex-direction: column;
         text-align: center;
         padding: 20px 0;
-        border-top: 1px solid rgba(255, 136, 0, 0.3);
+        border-top: 1px solid rgba(0, 212, 170, 0.3);
         backdrop-filter: blur(10px);
         z-index: 999;
         overflow-y: auto;
@@ -1356,7 +1357,7 @@
       max-width: 400px;
       padding: 30px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 136, 0, 0.2);
+      border: 1px solid rgba(0, 212, 170, 0.2);
       backdrop-filter: blur(10px);
       max-height: 90vh;
       overflow-y: auto;
@@ -1429,7 +1430,7 @@
     }
 
     .platform-btn.guest:hover {
-      background: rgba(255, 136, 0, 0.1);
+      background: rgba(0, 212, 170, 0.1);
       color: var(--color-primary);
       border-color: var(--color-primary);
     }
@@ -1481,7 +1482,7 @@
     .form-group input:focus {
       outline: none;
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
+      box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.2);
     }
 
     .form-group input.error { border-color: #ff4444; }
@@ -1514,7 +1515,7 @@
     }
 
     .password-strength.medium .password-strength-bar {
-      background: #ffaa00;
+      background: #00f5c4;
       width: 66%;
     }
 
@@ -1542,9 +1543,9 @@
     }
 
     .login-btn:hover, .register-btn:hover {
-      background: #ffaa00;
+      background: #00f5c4;
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255, 136, 0, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 212, 170, 0.3);
     }
 
     .cancel-btn {
@@ -1667,7 +1668,7 @@
       width: 90%;
       max-width: 700px;
       border-radius: 10px;
-      border: 2px solid rgba(255, 136, 0, 0.3);
+      border: 2px solid rgba(0, 212, 170, 0.3);
       box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
       max-height: 90vh;
       overflow-y: auto;
@@ -1704,7 +1705,7 @@
       border-color: var(--color-primary);
       background: #07080a;
       outline: none;
-      box-shadow: 0 0 10px rgba(255, 136, 0, 0.2);
+      box-shadow: 0 0 10px rgba(0, 212, 170, 0.2);
     }
 
     .submit-btn-new {
@@ -1724,9 +1725,9 @@
     }
 
     .submit-btn-new:hover {
-      background: #ffaa00;
+      background: #00f5c4;
       transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(255, 136, 0, 0.4);
+      box-shadow: 0 5px 20px rgba(0, 212, 170, 0.4);
     }
 
     .close-text {
@@ -1891,7 +1892,7 @@
     <div class="hero">
       <div class="hero-bg-logo"></div>
       <div class="hero-content">
-        <h1 class="hero-title">MTRP</h1>
+        <h1 class="hero-title">MC State</h1>
         <button class="btn-angled hero-btn" onclick="openLogin()">تسجيل دخول</button>
       </div>
     </div>
@@ -2181,7 +2182,7 @@
       
       <div class="footer-bottom">
         <div class="copyright">
-          <p>COPYRIGHT © 2025 - ALL RIGHTS RESERVED BY <span style="color:var(--color-primary);">MTRP</span></p>
+          <p>COPYRIGHT © 2025 - ALL RIGHTS RESERVED BY <span style="color:var(--color-primary);">MC State</span></p>
         </div>
 <div class="crafted-by">
     <p>Crafted By <a href="https://discord.gg/KbZuVkDT2b" target="_blank" style="color:#2a9df4; text-decoration:none;">ForLife Development</a></p>
@@ -2464,7 +2465,7 @@
     let isUserLoggedIn = false;
     let isTransitioning = false;
     let currentRegisterStep = 1;
-    let registeredUsers = JSON.parse(localStorage.getItem('mtrp_registered_users') || '[]');
+    let registeredUsers = JSON.parse(localStorage.getItem('mcstate_registered_users') || '[]');
 
     // ==================== تهيئة الصفحة ====================
     window.addEventListener('load', () => {
@@ -2504,7 +2505,7 @@
       
       if (event.data && event.data.type === 'DISCORD_AUTH_FULL') {
           const user = event.data.user;
-          const isPasswordResetFlow = localStorage.getItem('mtrp_password_reset_flow') === 'true';
+          const isPasswordResetFlow = localStorage.getItem('mcstate_password_reset_flow') === 'true';
           
           // بيانات المستخدم من Discord
           const userData = {
@@ -2516,11 +2517,11 @@
           };
           
           // حفظ بيانات المستخدم
-          localStorage.setItem('mtrp_user', JSON.stringify(userData));
-          localStorage.setItem('mtrp_login', 'true');
+          localStorage.setItem('mcstate_user', JSON.stringify(userData));
+          localStorage.setItem('mcstate_login', 'true');
           
           // التحقق إذا كان هذا المستخدم لديه حساب محلي مسبقاً
-          const registeredUsers = JSON.parse(localStorage.getItem('mtrp_registered_users') || '[]');
+          const registeredUsers = JSON.parse(localStorage.getItem('mcstate_registered_users') || '[]');
           const existingLocalUser = registeredUsers.find(u => u.email === user.email);
           
           if (existingLocalUser) {
@@ -2529,7 +2530,7 @@
               existingLocalUser.discordId = user.id;
               existingLocalUser.discordUsername = user.username;
               existingLocalUser.avatar = user.avatar;
-              localStorage.setItem('mtrp_registered_users', JSON.stringify(registeredUsers));
+              localStorage.setItem('mcstate_registered_users', JSON.stringify(registeredUsers));
           }
           
           // تحديث الواجهة
@@ -2547,7 +2548,7 @@
           
           // التحقق إذا كان في وضع إعادة تعيين كلمة المرور
           if (isPasswordResetFlow) {
-              localStorage.removeItem('mtrp_password_reset_flow');
+              localStorage.removeItem('mcstate_password_reset_flow');
               openChangePasswordModal(userData);
           } else {
               showNotification(`مرحباً ${user.username}! تم تسجيل الدخول باستخدام Discord بنجاح ✅`, 'success');
@@ -2875,11 +2876,11 @@
       
       // حفظ المستخدم في قاعدة البيانات
       registeredUsers.push(userData);
-      localStorage.setItem('mtrp_registered_users', JSON.stringify(registeredUsers));
+      localStorage.setItem('mcstate_registered_users', JSON.stringify(registeredUsers));
       
       // حفظ بيانات المستخدم
-      localStorage.setItem('mtrp_user', JSON.stringify(userData));
-      localStorage.setItem('mtrp_login', 'true');
+      localStorage.setItem('mcstate_user', JSON.stringify(userData));
+      localStorage.setItem('mcstate_login', 'true');
       
       // إغلاق مودال التسجيل
       closeModal('registerModal');
@@ -2940,20 +2941,20 @@
     }
 
     function startDiscordAuthForPasswordReset() {
-        localStorage.setItem('mtrp_password_reset_flow', 'true');
+        localStorage.setItem('mcstate_password_reset_flow', 'true');
         startDiscordAuth();
     }
 
     function checkPasswordResetFlow() {
-      const isPasswordResetFlow = localStorage.getItem('mtrp_password_reset_flow') === 'true';
-      const userData = localStorage.getItem('mtrp_user');
+      const isPasswordResetFlow = localStorage.getItem('mcstate_password_reset_flow') === 'true';
+      const userData = localStorage.getItem('mcstate_user');
       
       if (isPasswordResetFlow && userData) {
         try {
           const user = JSON.parse(userData);
           
           if (user.platform === 'discord') {
-            localStorage.removeItem('mtrp_password_reset_flow');
+            localStorage.removeItem('mcstate_password_reset_flow');
             
             setTimeout(() => {
               openChangePasswordModal(user);
@@ -2972,7 +2973,7 @@
       const userInfo = document.getElementById('current-user-info');
       
       if (!user) {
-        const userData = localStorage.getItem('mtrp_user');
+        const userData = localStorage.getItem('mcstate_user');
         if (userData) {
           try {
             user = JSON.parse(userData);
@@ -3071,7 +3072,7 @@
         return;
       }
       
-      const userData = localStorage.getItem('mtrp_user');
+      const userData = localStorage.getItem('mcstate_user');
       if (!userData) {
         showError('change-password-error', 'لم يتم العثور على بيانات المستخدم');
         return;
@@ -3081,12 +3082,12 @@
         const user = JSON.parse(userData);
         
         // تحديث كلمة المرور في قاعدة البيانات المحلية
-        const registeredUsers = JSON.parse(localStorage.getItem('mtrp_registered_users') || '[]');
+        const registeredUsers = JSON.parse(localStorage.getItem('mcstate_registered_users') || '[]');
         const userIndex = registeredUsers.findIndex(u => u.email === user.email);
         
         if (userIndex !== -1) {
           registeredUsers[userIndex].password = newPassword;
-          localStorage.setItem('mtrp_registered_users', JSON.stringify(registeredUsers));
+          localStorage.setItem('mcstate_registered_users', JSON.stringify(registeredUsers));
         }
         
         showNotification('تم تغيير كلمة المرور بنجاح! ✅', 'success');
@@ -3099,8 +3100,8 @@
     }
 
     function logout() {
-      localStorage.removeItem('mtrp_user');
-      localStorage.removeItem('mtrp_login');
+      localStorage.removeItem('mcstate_user');
+      localStorage.removeItem('mcstate_login');
       isUserLoggedIn = false;
       
       const btn = document.getElementById('btn-login-main');
@@ -3114,14 +3115,14 @@
 
     // ==================== وظائف إدارة بيانات المستخدم ====================
     function saveUserData(user) {
-      localStorage.setItem('mtrp_user', JSON.stringify(user));
-      localStorage.setItem('mtrp_login', 'true');
-      localStorage.setItem('mtrp_login_time', Date.now().toString());
+      localStorage.setItem('mcstate_user', JSON.stringify(user));
+      localStorage.setItem('mcstate_login', 'true');
+      localStorage.setItem('mcstate_login_time', Date.now().toString());
     }
 
     function checkSavedLogin() {
-      const isLoggedIn = localStorage.getItem('mtrp_login') === 'true';
-      const userData = localStorage.getItem('mtrp_user');
+      const isLoggedIn = localStorage.getItem('mcstate_login') === 'true';
+      const userData = localStorage.getItem('mcstate_user');
       
       if (isLoggedIn && userData) {
         try {
@@ -3156,9 +3157,9 @@
     
     // تسجيل الخروج
     function logoutUser() {
-      localStorage.removeItem('mtrp_user');
-      localStorage.removeItem('mtrp_login');
-      localStorage.removeItem('mtrp_discord_token');
+      localStorage.removeItem('mcstate_user');
+      localStorage.removeItem('mcstate_login');
+      localStorage.removeItem('mcstate_discord_token');
       isUserLoggedIn = false;
       
       // إعادة تعيين الواجهة
@@ -3173,8 +3174,8 @@
     
     // التحقق من تسجيل الدخول عند تحميل الصفحة
     document.addEventListener('DOMContentLoaded', function() {
-        const isLoggedIn = localStorage.getItem('mtrp_login') === 'true';
-        const userData = localStorage.getItem('mtrp_user');
+        const isLoggedIn = localStorage.getItem('mcstate_login') === 'true';
+        const userData = localStorage.getItem('mcstate_user');
         
         if (isLoggedIn && userData) {
             try {
@@ -3208,12 +3209,12 @@
         portfolio: document.getElementById('app-portfolio').value,
         about: document.getElementById('app-about').value,
         date: new Date().toISOString(),
-        userId: JSON.parse(localStorage.getItem('mtrp_user')).id
+        userId: JSON.parse(localStorage.getItem('mcstate_user')).id
       };
 
-      const applications = JSON.parse(localStorage.getItem('mtrp_applications') || '[]');
+      const applications = JSON.parse(localStorage.getItem('mcstate_applications') || '[]');
       applications.push(formData);
-      localStorage.setItem('mtrp_applications', JSON.stringify(applications));
+      localStorage.setItem('mcstate_applications', JSON.stringify(applications));
 
       setTimeout(() => {
         btn.innerHTML = "<span>تم الإرسال بنجاح! ✅</span>";
@@ -3468,8 +3469,8 @@
           transform: scale(0.96);
           animation: kpretReveal 2s ease forwards;
           text-shadow: 
-            0 0 20px rgba(255, 136, 0, 0.8),
-            0 0 40px rgba(255, 136, 0, 0.4);
+            0 0 20px rgba(0, 212, 170, 0.8),
+            0 0 40px rgba(0, 212, 170, 0.4);
         }
 
         @keyframes kpretReveal {
