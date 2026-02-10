@@ -2060,7 +2060,7 @@
       </nav>
       <div style="display: flex; gap: 8px; align-items: center;">
         <button class="btn-angled" id="btn-login-main" onclick="window.location.href='./store.html'" style="padding: 8px 20px; font-size: 0.85rem;">المتجر</button>
-        <a href="https://discord.com/api/oauth2/authorize?client_id=1469795188065964384&redirect_uri=https%3A%2F%2Fksawep.github.io%2FMC%2Fcallback.html&response_type=code&scope=identify%20guilds.join" id="login-btn" class="btn-angled" style="background: transparent; border: 2px solid #5865F2; color: #5865F2; padding: 8px 20px; font-size: 0.85rem;">
+        <a href="#" id="login-btn" class="btn-angled" style="background: transparent; border: 2px solid #5865F2; color: #5865F2; padding: 8px 20px; font-size: 0.85rem;" onclick="localStorage.setItem('mcstate_redirect', window.location.href); window.location.href='https://discord.com/api/oauth2/authorize?client_id=1469795188065964384&redirect_uri=https%3A%2F%2Fksawep.github.io%2Fcfw%2Fcallback.html&response_type=code&scope=identify%20guilds.join'">
           <i class="fab fa-discord"></i> دخول
         </a>
         <div id="user-logged" style="display: none; align-items: center; gap: 10px;">

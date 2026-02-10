@@ -124,7 +124,7 @@
                 <span class="user-name" id="userName"></span>
             </div>
             <p>مرحباً بك في MC State</p>
-            <a href="./index.html" class="btn">الذهاب للموقع</a>
+            <a href="./index.html" class="btn" id="goBackBtn">الذهاب للموقع</a>
         </div>
         
         <div id="error" class="error">
@@ -137,7 +137,7 @@
     <script>
         const CLIENT_ID = '1469795188065964384';
         const CLIENT_SECRET = '0j6YYosgacdc2qwXDyaJVhkSePxg2byI';
-        const REDIRECT_URI = 'https://ksawep.github.io/MC/callback.html';
+        const REDIRECT_URI = 'https://ksawep.github.io/cfw/callback.html';
 
         async function handleCallback() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -217,9 +217,16 @@
             document.getElementById('userAvatar').src = user.avatar;
             document.getElementById('userName').textContent = user.globalName;
             
+            // Get saved redirect URL or default to index
+            const redirectUrl = localStorage.getItem('mcstate_redirect') || './index.html';
+            localStorage.removeItem('mcstate_redirect');
+            
+            // Update the button link
+            document.getElementById('goBackBtn').href = redirectUrl;
+            
             // Redirect after 2 seconds
             setTimeout(() => {
-                window.location.href = './index.html';
+                window.location.href = redirectUrl;
             }, 2000);
         }
 
