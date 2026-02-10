@@ -214,7 +214,8 @@
             width: 100%;
             max-width: 550px;
             max-height: 90vh;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .modal-header {
@@ -223,6 +224,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .modal-header h3 { font-size: 20px; }
@@ -236,8 +238,8 @@
         }
 
         .modal-close:hover { color: var(--danger); }
-        .modal-body { padding: 25px; }
-        .modal-footer { padding: 20px 25px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }
+        .modal-body { padding: 25px; overflow-y: auto; flex: 1; }
+        .modal-footer { padding: 20px 25px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; flex-shrink: 0; }
 
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
@@ -336,7 +338,7 @@
                 <button class="modal-close" onclick="closeModal()"><span class="material-icons">close</span></button>
             </div>
             <div class="modal-body">
-                <form id="productForm">
+                <form id="productForm" onsubmit="event.preventDefault(); saveProduct();">
                     <input type="hidden" id="productId">
                     <div class="form-group">
                         <label>اسم المنتج</label>
@@ -376,8 +378,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
-                <button class="btn btn-primary" onclick="saveProduct()">حفظ</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+                <button type="button" class="btn btn-primary" onclick="saveProduct()">حفظ</button>
             </div>
         </div>
     </div>

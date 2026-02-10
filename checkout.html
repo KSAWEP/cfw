@@ -480,7 +480,7 @@
     <!-- Hero -->
     <section class="checkout-hero">
         <h1>إتمام <span>الطلب</span></h1>
-        <p>أكمل بيانات الدفع لإتمام طلبك</p>
+        <p>أكمل طلبك عبر الديسكورد</p>
     </section>
 
     <!-- Checkout Container -->
@@ -506,119 +506,45 @@
             </div>
         </div>
 
-        <!-- Payment Method -->
+        <!-- Discord Payment Instructions -->
         <div class="checkout-section">
             <div class="section-header">
-                <span class="material-icons">account_balance</span>
+                <span class="material-icons">payment</span>
                 طريقة الدفع
             </div>
-            <div class="section-body">
-                <label class="account-select-label">اختر حساب التاجر</label>
-                
-                <div class="account-options">
-                    <div class="account-option" onclick="selectAccount('stc')" id="option-stc">
-                        <div class="bank-name">STC Pay</div>
-                        <div class="holder-name">ياسر عبد الرحمان بن عشوي الشراري</div>
+            <div class="section-body" style="text-align: center; padding: 40px 30px;">
+                <div style="width: 90px; height: 90px; background: linear-gradient(135deg, #5865F2, #4752C4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; font-size: 40px;">
+                    <span class="material-icons" style="font-size: 40px; color: #fff;">headset_mic</span>
+                </div>
+                <h2 style="color: #fff; font-size: 1.6rem; margin-bottom: 12px;">ادخل الديسكورد وافتح تكت</h2>
+                <p style="color: #8a8f98; font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px; max-width: 450px; margin-left: auto; margin-right: auto;">
+                    افتح تكت في سيرفر <strong style="color: #5865F2;">MC STATE</strong> على الديسكورد، اذكر المنتج اللي تبيه، ادفع وستلم منتجك مباشرة!
+                </p>
+
+                <div style="background: rgba(88, 101, 242, 0.1); border: 1px solid rgba(88, 101, 242, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 25px; text-align: right;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <span style="background: #5865F2; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; flex-shrink: 0;">1</span>
+                        <span style="color: #ccc;">ادخل سيرفر <strong style="color: #5865F2;">MC STATE</strong> على الديسكورد</span>
                     </div>
-                    <div class="account-option" onclick="selectAccount('rajhi')" id="option-rajhi">
-                        <div class="bank-name">الراجحي</div>
-                        <div class="holder-name">نواف الشراري</div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <span style="background: #5865F2; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; flex-shrink: 0;">2</span>
+                        <span style="color: #ccc;">افتح <strong style="color: #fff;">تكت</strong> في قسم الدعم</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <span style="background: #5865F2; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; flex-shrink: 0;">3</span>
+                        <span style="color: #ccc;">اذكر المنتج اللي تبيه وأكمل <strong style="color: #fff;">الدفع</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="background: #00d4aa; color: #000; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; flex-shrink: 0;">✓</span>
+                        <span style="color: #ccc;"><strong style="color: #00d4aa;">ستلم منتجك</strong> مباشرة بعد التأكيد!</span>
                     </div>
                 </div>
 
-                <!-- STC Account Info -->
-                <div class="account-info" id="info-stc">
-                    <div class="info-row">
-                        <span class="info-label">اسم البنك :</span>
-                        <span class="info-value">stc</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">صاحب الحساب :</span>
-                        <span class="info-value">ياسر عبد الرحمان بن عشوي الشراري</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">رقم الحساب :</span>
-                        <span class="info-value">
-                            <button class="copy-btn" onclick="copyText('257808404')">نسخ</button>
-                            257808404
-                        </span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">رقم الايبان :</span>
-                        <span class="info-value">
-                            <button class="copy-btn" onclick="copyText('SA1878000000001257808404')">نسخ</button>
-                            SA1878000000001257808404
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Rajhi Account Info -->
-                <div class="account-info" id="info-rajhi">
-                    <div class="info-row">
-                        <span class="info-label">اسم البنك :</span>
-                        <span class="info-value">راجحي</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">صاحب الحساب :</span>
-                        <span class="info-value">نواف الشراري</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">رقم الحساب :</span>
-                        <span class="info-value">
-                            <button class="copy-btn" onclick="copyText('111000010006089464128')">نسخ</button>
-                            111000010006089464128
-                        </span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">رقم الايبان :</span>
-                        <span class="info-value">
-                            <button class="copy-btn" onclick="copyText('SA2780000111608019464128')">نسخ</button>
-                            SA27 8000 0111 6080 1946 4128
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Upload Receipt -->
-                <div class="form-group">
-                    <label class="upload-label">صورة الإيصال</label>
-                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('receiptFile').click()">
-                        <span class="material-icons">cloud_upload</span>
-                        <p>اضغط لرفع صورة الإيصال</p>
-                        <p class="file-name" id="fileName"></p>
-                    </div>
-                    <input type="file" id="receiptFile" class="upload-input" accept="image/*" onchange="handleFileUpload(this)">
-                </div>
-
-                <!-- Sender Name -->
-                <div class="form-group">
-                    <label>اسم صاحب الحساب الذي قام بالتحويل</label>
-                    <input type="text" class="form-control" id="senderName" placeholder="أدخل اسم المحوّل" oninput="validateForm()">
-                </div>
-            </div>
-        </div>
-
-        <!-- Submit Button -->
-        <button class="submit-btn" id="submitBtn" onclick="submitOrder()" disabled>
-            <span class="material-icons">check_circle</span>
-            إرسال الطلب
-        </button>
-    </div>
-
-    <!-- Success Message -->
-    <div class="checkout-container" id="successContainer">
-        <div class="checkout-section">
-            <div class="section-body">
-                <div class="success-container" id="successMessage">
-                    <span class="material-icons">check_circle</span>
-                    <h2>تم إرسال طلبك بنجاح! 🎉</h2>
-                    <p>سيتم مراجعة طلبك والتواصل معك عبر الديسكورد قريباً</p>
-                    <div class="order-number" id="orderNumber">MC-00000000</div>
-                    <p>احتفظ برقم الطلب للمتابعة</p>
-                    <a href="./store.html" class="btn">
-                        <span class="material-icons">store</span>
-                        العودة للمتجر
-                    </a>
-                </div>
+                <a href="https://discord.gg/cdgc25MqxG" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; background: #5865F2; color: #fff; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer;">
+                    <span class="material-icons">open_in_new</span>
+                    ادخل الديسكورد وافتح تكت
+                </a>
+                <p style="color: #555; font-size: 0.8rem; margin-top: 15px;">discord.gg/cdgc25MqxG</p>
             </div>
         </div>
     </div>
@@ -643,40 +569,18 @@
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script>
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyCHSSG-H8lARcSScKc6WX2xiYy5W5FmzUI",
-            authDomain: "mcstate-51aff.firebaseapp.com",
-            projectId: "mcstate-51aff",
-            storageBucket: "mcstate-51aff.firebasestorage.app",
-            messagingSenderId: "938934256525",
-            appId: "1:938934256525:web:415533592415996921f3c4"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
         let cart = JSON.parse(localStorage.getItem('mcstate_cart')) || [];
-        let selectedAccount = null;
-        let uploadedFile = null;
 
-        // Initialize
         function init() {
             if (cart.length === 0) {
                 document.getElementById('checkoutMain').style.display = 'none';
-                document.getElementById('successContainer').style.display = 'none';
                 document.getElementById('emptyCartContainer').style.display = 'block';
                 return;
             }
-
-            document.getElementById('successContainer').style.display = 'none';
             renderOrderItems();
         }
 
-        // Render order items
         function renderOrderItems() {
             const container = document.getElementById('orderItems');
             container.innerHTML = cart.map(item => `
@@ -695,144 +599,6 @@
             document.getElementById('total').textContent = '$' + total.toFixed(2);
         }
 
-        // Select account
-        function selectAccount(account) {
-            selectedAccount = account;
-
-            // Update options
-            document.querySelectorAll('.account-option').forEach(el => el.classList.remove('active'));
-            document.getElementById('option-' + account).classList.add('active');
-
-            // Show account info
-            document.querySelectorAll('.account-info').forEach(el => el.classList.remove('active'));
-            document.getElementById('info-' + account).classList.add('active');
-
-            validateForm();
-        }
-
-        // Copy text
-        function copyText(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('تم النسخ بنجاح ✓');
-            });
-        }
-
-        // Handle file upload
-        function handleFileUpload(input) {
-            if (input.files && input.files[0]) {
-                uploadedFile = input.files[0];
-                document.getElementById('fileName').textContent = uploadedFile.name;
-                document.getElementById('uploadArea').classList.add('has-file');
-                validateForm();
-            }
-        }
-
-        // Validate form
-        function validateForm() {
-            const senderName = document.getElementById('senderName').value.trim();
-            const isValid = selectedAccount && uploadedFile && senderName;
-            document.getElementById('submitBtn').disabled = !isValid;
-        }
-
-        // Submit order
-        async function submitOrder() {
-            const orderNum = 'MC-' + Date.now().toString().slice(-8);
-            const senderName = document.getElementById('senderName').value;
-            const totalAmount = cart.reduce((s, i) => s + i.price * i.qty, 0);
-            const productsList = cart.map(i => `${i.name} (${i.qty}x)`).join('\n• ');
-
-            // Disable button
-            document.getElementById('submitBtn').disabled = true;
-            document.getElementById('submitBtn').innerHTML = '<span class="material-icons">hourglass_empty</span> جاري الإرسال...';
-
-            try {
-                // Send to Discord Webhook
-                const webhookUrl = 'https://discord.com/api/webhooks/1469694539865391317/KlvBtF9A8QIPPguLgO5jwUzXhkuoBmGLkHkq1RrgxyOeVUot7rDSJZzV7FZJVudy1oKB';
-                
-                // Create form data for image
-                const formData = new FormData();
-                
-                // Create embed message
-                const embed = {
-                    title: '🛒 طلب جديد!',
-                    color: 0x00d4aa,
-                    fields: [
-                        { name: '📋 رقم الطلب', value: orderNum, inline: true },
-                        { name: '👤 اسم المحوّل', value: senderName, inline: true },
-                        { name: '🏦 طريقة الدفع', value: selectedAccount === 'stc' ? 'STC Pay' : 'الراجحي', inline: true },
-                        { name: '💰 المبلغ', value: `$${totalAmount.toFixed(2)}`, inline: true },
-                        { name: '📦 المنتجات', value: '• ' + productsList, inline: false }
-                    ],
-                    footer: { text: 'MC State Store' },
-                    timestamp: new Date().toISOString()
-                };
-
-                const payload = {
-                    embeds: [embed]
-                };
-
-                // Send message first
-                await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                // Send image if uploaded
-                if (uploadedFile) {
-                    const imageFormData = new FormData();
-                    imageFormData.append('file', uploadedFile, 'receipt_' + orderNum + '.' + uploadedFile.name.split('.').pop());
-                    imageFormData.append('payload_json', JSON.stringify({
-                        content: `📎 **إيصال الطلب ${orderNum}**`
-                    }));
-
-                    await fetch(webhookUrl, {
-                        method: 'POST',
-                        body: imageFormData
-                    });
-                }
-
-                // Save order to Firebase
-                const orderData = {
-                    id: orderNum,
-                    customer: senderName,
-                    products: cart.map(i => i.name),
-                    amount: totalAmount,
-                    status: 'pending',
-                    paymentMethod: selectedAccount,
-                    date: new Date().toISOString()
-                };
-
-                try {
-                    await db.collection('orders').doc(orderNum).set(orderData);
-                } catch (e) {
-                    console.log('Firebase save failed, using localStorage');
-                    const orders = JSON.parse(localStorage.getItem('mcstate_orders')) || [];
-                    orders.unshift(orderData);
-                    localStorage.setItem('mcstate_orders', JSON.stringify(orders));
-                }
-
-                // Clear cart
-                localStorage.removeItem('mcstate_cart');
-
-                // Show success
-                document.getElementById('checkoutMain').style.display = 'none';
-                document.getElementById('successContainer').style.display = 'block';
-                document.getElementById('successMessage').style.display = 'block';
-                document.getElementById('orderNumber').textContent = orderNum;
-
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('حدث خطأ، حاول مرة أخرى');
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('submitBtn').innerHTML = '<span class="material-icons">check_circle</span> إرسال الطلب';
-            }
-        }
-
-        // Toast
         function showToast(msg) {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
@@ -840,7 +606,6 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Initialize on load
         init();
     </script>
 </body>

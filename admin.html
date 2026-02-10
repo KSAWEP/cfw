@@ -210,7 +210,7 @@
                     <div class="stat-card"><div class="icon orange"><span class="material-icons">inventory_2</span></div><h3 id="stat-products">0</h3><p>إجمالي المنتجات</p></div>
                     <div class="stat-card"><div class="icon green"><span class="material-icons">shopping_bag</span></div><h3 id="stat-orders">0</h3><p>الطلبات</p></div>
                     <div class="stat-card"><div class="icon blue"><span class="material-icons">assignment</span></div><h3 id="stat-applications">0</h3><p>التقديمات</p></div>
-                    <div class="stat-card"><div class="icon red"><span class="material-icons">attach_money</span></div><h3 id="stat-revenue">$0</h3><p>إجمالي المبيعات</p></div>
+                    <div class="stat-card"><div class="icon red"><span class="material-icons">attach_money</span></div><h3 id="stat-revenue">$0</h3><p>إجمالي الإدخال</p></div>
                 </div>
                 <div class="card">
                     <div class="card-header"><h3><span class="material-icons">trending_up</span> آخر الطلبات</h3></div>
@@ -244,7 +244,7 @@
                     <button class="tab" onclick="filterApplications('streamer', this)">الستريمر</button>
                 </div>
                 <div class="card"><div class="table-container">
-                    <table><thead><tr><th>النوع</th><th>الاسم</th><th>الديسكورد</th><th>العمر</th><th>الحالة</th><th>التاريخ</th><th>الإجراءات</th></tr></thead>
+                    <table><thead><tr><th>النوع</th><th>الاسم</th><th>الديسكورد</th><th>العمر</th><th>اسم الشخصية</th><th>التفاصيل</th><th>الحالة</th><th>التاريخ</th><th>الإجراءات</th></tr></thead>
                     <tbody id="applicationsTable"></tbody></table>
                 </div></div>
             </div>
@@ -425,18 +425,20 @@
         function renderApplications(filtered = null) {
             const data = filtered || applications;
             const table = document.getElementById('applicationsTable');
-            if (data.length === 0) { table.innerHTML = '<tr><td colspan="7" class="empty-state"><span class="material-icons">assignment</span>لا توجد تقديمات</td></tr>'; return; }
+            if (data.length === 0) { table.innerHTML = '<tr><td colspan="9" class="empty-state"><span class="material-icons">assignment</span>لا توجد تقديمات</td></tr>'; return; }
             table.innerHTML = data.map((a, i) => `<tr>
                 <td>${getTypeBadge(a.type)}</td>
                 <td><strong>${a.name || '-'}</strong></td>
-                <td>${a.discord || '-'}</td>
-                <td>${a.age || '-'}</td>
+                <td style="color: #5865F2; font-weight: 600;">${a.discord || '-'}</td>
+                <td>${a.age ? a.age + ' سنة' : '-'}</td>
+                <td>${a.character || '-'}</td>
+                <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${a.experience || a.reason || a.platform || '-'}</td>
                 <td>${getAppStatusBadge(a.status)}</td>
                 <td>${a.date ? new Date(a.date).toLocaleDateString('ar') : '-'}</td>
                 <td><div class="actions">
-                    <button class="action-btn view" onclick="viewApp(${i})"><span class="material-icons">visibility</span></button>
-                    <button class="action-btn approve" onclick="updateAppStatus('${a.docId}', 'approved')"><span class="material-icons">check</span></button>
-                    <button class="action-btn delete" onclick="updateAppStatus('${a.docId}', 'rejected')"><span class="material-icons">close</span></button>
+                    <button class="action-btn view" onclick="viewApp(${i})" title="عرض التفاصيل"><span class="material-icons">visibility</span></button>
+                    <button class="action-btn approve" onclick="updateAppStatus('${a.docId}', 'approved')" title="قبول"><span class="material-icons">check</span></button>
+                    <button class="action-btn delete" onclick="updateAppStatus('${a.docId}', 'rejected')" title="رفض"><span class="material-icons">close</span></button>
                 </div></td>
             </tr>`).join('');
         }
