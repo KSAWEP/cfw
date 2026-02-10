@@ -2526,7 +2526,7 @@
         <span class="section-title-small">APPLY / التقديم</span>
         <h2 style="font-size: 3.5rem; color:#fff; font-weight:900; text-align:center;">التقديم</h2>
         <div style="width: 50px; height: 4px; background:var(--color-primary); margin: 15px auto 60px;"></div>
-        <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">يجب عليك تسجيل الدخول لتقديم</p>
+        <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">انضم لفريق MC State واختر الوظيفة المناسبة لك</p>
 
         <div class="jobs-grid">
           <!-- العسكرية -->
@@ -2736,7 +2736,7 @@
           <div class="logo-circle" onclick="navigateToPage('home')"></div>
           <p>
             MC State - أفضل سيرفر FiveM عربي للرول بلاي.
-            نحن نعمل منذ عام  2025ولدينا خبرة إدارية وبرمجية واسعة.
+            نحن نعمل منذ عام 2019 ولدينا خبرة إدارية وبرمجية واسعة.
           </p>
         </div>
         
@@ -2779,7 +2779,7 @@
           <p>COPYRIGHT © 2025 - ALL RIGHTS RESERVED BY <span style="color:var(--color-primary);">MC State</span></p>
         </div>
 <div class="crafted-by">
-    <p>صنع من <a href="https://codly.online/" target="_blank" style="color:#2a9df4; text-decoration:none;">Codly46 Development</a></p>
+    <p>صنع من <a href="https://codly.online/" target="_blank" style="color:#fff; text-decoration:none; text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3);">Codly46 Development</a></p>
 </div>
       </div>
     </div>
@@ -3866,6 +3866,14 @@
     };
 
     function openApplicationModal(type) {
+      const savedUser = localStorage.getItem('mcstate_user');
+      if (!savedUser) {
+        showNotification('يجب عليك تسجيل الدخول بالديسكورد أولاً قبل التقديم', 'error');
+        setTimeout(() => {
+          document.getElementById('login-btn').click();
+        }, 1500);
+        return;
+      }
       document.getElementById('modal-' + type).style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
