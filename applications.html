@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC State - التقديمات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0f14;
+            --bg-darker: #060a0d;
+            --bg-card: #12171c;
+            --orange: #00d4aa;
+            --orange-dark: #00b894;
+            --text-white: #ffffff;
+            --text-gray: #8a8f98;
+            --border-color: #1e2428;
+            --success: #28a745;
+            --danger: #dc3545;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(6, 10, 13, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo img { width: 50px; height: 50px; border-radius: 50%; }
+        .logo span { font-size: 24px; font-weight: 800; color: var(--orange); }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover { color: var(--orange); }
+
+        /* Hero */
+        .hero {
+            padding: 120px 20px 50px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-darker), var(--bg-dark));
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 span { color: var(--orange); }
+        .hero p { color: var(--text-gray); font-size: 18px; }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Application Cards */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .app-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .app-card:hover {
+            border-color: var(--orange);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 212, 170, 0.15);
+        }
+
+        .app-card-header {
+            background: var(--bg-darker);
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .app-card-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 212, 170, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-card-icon .material-icons {
+            font-size: 30px;
+            color: var(--orange);
+        }
+
+        .app-card-title h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .app-card-title p {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .app-card-body {
+            padding: 25px;
+        }
+
+        .app-card-body ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .app-card-body li {
+            padding: 8px 0;
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-card-body li .material-icons {
+            font-size: 18px;
+            color: var(--orange);
+        }
+
+        .app-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--orange);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .app-btn:hover { background: var(--orange-dark); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            background: var(--bg-darker);
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-header h2 .material-icons { color: var(--orange); }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            font-size: 28px;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover { color: var(--danger); }
+
+        .modal-body { padding: 25px; }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+
+        .form-group label span {
+            color: var(--danger);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-darker);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-white);
+            font-family: 'Cairo', sans-serif;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--orange);
+        }
+
+        .form-control::placeholder { color: var(--text-gray); }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        .form-note {
+            background: rgba(0, 212, 170, 0.1);
+            border-right: 3px solid var(--orange);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .form-note .material-icons {
+            font-size: 18px;
+            color: var(--orange);
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--orange);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--orange);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover { background: var(--orange-dark); }
+        .submit-btn:disabled { background: var(--text-gray); cursor: not-allowed; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            border-right: 4px solid var(--success);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            z-index: 5000;
+            opacity: 0;
+            transition: all 0.4s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.error { border-right-color: var(--danger); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 15px 20px; }
+            .hero h1 { font-size: 32px; }
+            .apps-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="./index.html" class="logo">
+            <img src="./logo.webp" alt="MC State" onerror="this.src='https://via.placeholder.com/50/00d4aa/fff?text=MC'">
+            <span>MC State</span>
+        </a>
+        <a href="./index.html" class="back-btn">
+            <span class="material-icons">arrow_forward</span>
+            العودة للرئيسية
+        </a>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>التقديم على <span>الوظائف</span></h1>
+        <p>انضم لفريق MC State واختر الوظيفة المناسبة لك</p>
+    </section>
+
+    <!-- Applications -->
+    <div class="container">
+        <div class="apps-grid">
+            <!-- العسكرية -->
+            <div class="app-card" onclick="openModal('military')">
+                <div class="app-card-header">
+                    <div class="app-card-icon">
+                        <span class="material-icons">local_police</span>
+                    </div>
+                    <div class="app-card-title">
+                        <h3>العسكرية</h3>
+                        <p>انضم للقوات العسكرية</p>
+                    </div>
+                </div>
+                <div class="app-card-body">
+                    <ul>
+                        <li><span class="material-icons">check_circle</span> حماية المدينة</li>
+                        <li><span class="material-icons">check_circle</span> تطبيق القانون</li>
+                        <li><span class="material-icons">check_circle</span> العمل ضمن فريق</li>
+                    </ul>
+                    <button class="app-btn">تقديم الآن</button>
+                </div>
+            </div>
+
+            <!-- الإدارة -->
+            <div class="app-card" onclick="openModal('admin')">
+                <div class="app-card-header">
+                    <div class="app-card-icon">
+                        <span class="material-icons">admin_panel_settings</span>
+                    </div>
+                    <div class="app-card-title">
+                        <h3>الإدارة</h3>
+                        <p>انضم لفريق الإدارة</p>
+                    </div>
+                </div>
+                <div class="app-card-body">
+                    <ul>
+                        <li><span class="material-icons">check_circle</span> إدارة السيرفر</li>
+                        <li><span class="material-icons">check_circle</span> مساعدة اللاعبين</li>
+                        <li><span class="material-icons">check_circle</span> حل المشاكل</li>
+                    </ul>
+                    <button class="app-btn">تقديم الآن</button>
+                </div>
+            </div>
+
+            <!-- الستريمر -->
+            <div class="app-card" onclick="openModal('streamer')">
+                <div class="app-card-header">
+                    <div class="app-card-icon">
+                        <span class="material-icons">videocam</span>
+                    </div>
+                    <div class="app-card-title">
+                        <h3>الستريمر</h3>
+                        <p>صانع محتوى</p>
+                    </div>
+                </div>
+                <div class="app-card-body">
+                    <ul>
+                        <li><span class="material-icons">check_circle</span> صناعة المحتوى</li>
+                        <li><span class="material-icons">check_circle</span> البث المباشر</li>
+                        <li><span class="material-icons">check_circle</span> الحد الأدنى 200 متابع</li>
+                    </ul>
+                    <button class="app-btn">تقديم الآن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: العسكرية -->
+    <div class="modal-overlay" id="modal-military">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><span class="material-icons">local_police</span> تقديم العسكرية</h2>
+                <button class="modal-close" onclick="closeModal('military')">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitApplication(event, 'military')">
+                    <div class="form-group">
+                        <label>اسمك <span>*</span></label>
+                        <input type="text" class="form-control" name="name" placeholder="أدخل اسمك الحقيقي" required>
+                    </div>
+                    <div class="form-group">
+                        <label>اسم الشخصية <span>*</span></label>
+                        <input type="text" class="form-control" name="character" placeholder="اسم شخصيتك في السيرفر" required>
+                    </div>
+                    <div class="form-group">
+                        <label>اسم الديسكورد <span>*</span></label>
+                        <input type="text" class="form-control" name="discord" placeholder="مثال: ahmed#1234" required>
+                    </div>
+                    <div class="form-group">
+                        <label>العمر <span>*</span></label>
+                        <input type="number" class="form-control" name="age" placeholder="عمرك" min="13" max="99" required>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="rules-military" required>
+                        <label for="rules-military">أوافق على قوانين السيرفر</label>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span class="material-icons">send</span>
+                        إرسال التقديم
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: الإدارة -->
+    <div class="modal-overlay" id="modal-admin">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><span class="material-icons">admin_panel_settings</span> تقديم الإدارة</h2>
+                <button class="modal-close" onclick="closeModal('admin')">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitApplication(event, 'admin')">
+                    <div class="form-group">
+                        <label>اسمك <span>*</span></label>
+                        <input type="text" class="form-control" name="name" placeholder="أدخل اسمك الحقيقي" required>
+                    </div>
+                    <div class="form-group">
+                        <label>اسم حسابك ديسكورد <span>*</span></label>
+                        <input type="text" class="form-control" name="discord" placeholder="مثال: ahmed#1234" required>
+                    </div>
+                    <div class="form-group">
+                        <label>العمر <span>*</span></label>
+                        <input type="number" class="form-control" name="age" placeholder="عمرك" min="13" max="99" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الخبرات الإدارية <span>*</span></label>
+                        <textarea class="form-control" name="experience" placeholder="اكتب خبراتك الإدارية السابقة..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>سبب التقديم <span>*</span></label>
+                        <textarea class="form-control" name="reason" placeholder="لماذا تريد الانضمام للإدارة؟" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>هل كنت إداري بسيرفر آخر؟ <span>*</span></label>
+                        <select class="form-control" name="previous" required>
+                            <option value="">اختر...</option>
+                            <option value="نعم">نعم</option>
+                            <option value="لا">لا</option>
+                        </select>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="rules-admin" required>
+                        <label for="rules-admin">أوافق على قوانين السيرفر</label>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span class="material-icons">send</span>
+                        إرسال التقديم
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: الستريمر -->
+    <div class="modal-overlay" id="modal-streamer">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><span class="material-icons">videocam</span> تقديم الستريمر</h2>
+                <button class="modal-close" onclick="closeModal('streamer')">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitApplication(event, 'streamer')">
+                    <div class="form-note">
+                        <span class="material-icons">info</span>
+                        ملاحظة: عدد المتابعين لا يقل عن 200
+                    </div>
+                    <div class="form-group">
+                        <label>اسم الديسكورد <span>*</span></label>
+                        <input type="text" class="form-control" name="discord" placeholder="مثال: ahmed#1234" required>
+                    </div>
+                    <div class="form-group">
+                        <label>اسم المنصة <span>*</span></label>
+                        <select class="form-control" name="platform" required>
+                            <option value="">اختر المنصة...</option>
+                            <option value="YouTube">YouTube</option>
+                            <option value="Twitch">Twitch</option>
+                            <option value="TikTok">TikTok</option>
+                            <option value="Kick">Kick</option>
+                            <option value="أخرى">أخرى</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>اسم القناة أو الحساب <span>*</span></label>
+                        <input type="text" class="form-control" name="channel" placeholder="اسم قناتك أو حسابك" required>
+                    </div>
+                    <div class="form-group">
+                        <label>عدد المتابعين أو المشتركين <span>*</span></label>
+                        <input type="number" class="form-control" name="followers" placeholder="الحد الأدنى 200" min="200" required>
+                    </div>
+                    <div class="form-group">
+                        <label>رابط القناة أو الحساب <span>*</span></label>
+                        <input type="url" class="form-control" name="link" placeholder="https://..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>خبراتك في صناعة المحتوى وماذا ستقدم للسيرفر؟ <span>*</span></label>
+                        <textarea class="form-control" name="experience" placeholder="اكتب خبراتك وما ستقدمه..." required></textarea>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="rules-streamer" required>
+                        <label for="rules-streamer">قرأت القوانين وأوافق عليها</label>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span class="material-icons">send</span>
+                        إرسال التقديم
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Webhooks
+        const webhooks = {
+            military: 'https://discord.com/api/webhooks/1469713241545510953/Lbqlq0uXXNFPZx_cK4jsNinnqr8CpqfgsFXbJf8I7FunATEUTWitzKtdTNBTVZ1KVb4D',
+            admin: 'https://discord.com/api/webhooks/1469712909734121582/OeUPI0YG6BO7B16Dmh5DyeZ24YVAH3ASbvovlSgEfKtW4b1M16SHfIx84_qtL0049tVG',
+            streamer: 'https://discord.com/api/webhooks/1469712909734121582/OeUPI0YG6BO7B16Dmh5DyeZ24YVAH3ASbvovlSgEfKtW4b1M16SHfIx84_qtL0049tVG'
+        };
+
+        // Open modal
+        function openModal(type) {
+            document.getElementById('modal-' + type).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal(type) {
+            document.getElementById('modal-' + type).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                    m.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Submit application
+        async function submitApplication(event, type) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            const submitBtn = form.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="material-icons">hourglass_empty</span> جاري الإرسال...';
+
+            let embed;
+
+            if (type === 'military') {
+                embed = {
+                    title: '📋 تقديم جديد - العسكرية',
+                    color: 0x00d4aa,
+                    fields: [
+                        { name: '👤 الاسم', value: data.name, inline: true },
+                        { name: '🎮 اسم الشخصية', value: data.character, inline: true },
+                        { name: '💬 الديسكورد', value: data.discord, inline: true },
+                        { name: '🎂 العمر', value: data.age + ' سنة', inline: true }
+                    ],
+                    footer: { text: 'MC State - تقديم العسكرية' },
+                    timestamp: new Date().toISOString()
+                };
+            } else if (type === 'admin') {
+                embed = {
+                    title: '📋 تقديم جديد - الإدارة',
+                    color: 0x00d4aa,
+                    fields: [
+                        { name: '👤 الاسم', value: data.name, inline: true },
+                        { name: '💬 الديسكورد', value: data.discord, inline: true },
+                        { name: '🎂 العمر', value: data.age + ' سنة', inline: true },
+                        { name: '📝 الخبرات الإدارية', value: data.experience, inline: false },
+                        { name: '❓ سبب التقديم', value: data.reason, inline: false },
+                        { name: '🔄 إداري سابق؟', value: data.previous, inline: true }
+                    ],
+                    footer: { text: 'MC State - تقديم الإدارة' },
+                    timestamp: new Date().toISOString()
+                };
+            } else if (type === 'streamer') {
+                embed = {
+                    title: '📋 تقديم جديد - الستريمر',
+                    color: 0x00d4aa,
+                    fields: [
+                        { name: '💬 الديسكورد', value: data.discord, inline: true },
+                        { name: '📺 المنصة', value: data.platform, inline: true },
+                        { name: '📛 اسم القناة', value: data.channel, inline: true },
+                        { name: '👥 عدد المتابعين', value: data.followers, inline: true },
+                        { name: '🔗 الرابط', value: data.link, inline: false },
+                        { name: '📝 الخبرات وما سيقدمه', value: data.experience, inline: false }
+                    ],
+                    footer: { text: 'MC State - تقديم الستريمر' },
+                    timestamp: new Date().toISOString()
+                };
+            }
+
+            try {
+                await fetch(webhooks[type], {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ embeds: [embed] })
+                });
+
+                showToast('تم إرسال التقديم بنجاح! ✅');
+                form.reset();
+                closeModal(type);
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('حدث خطأ، حاول مرة أخرى', true);
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span class="material-icons">send</span> إرسال التقديم';
+        }
+
+        // Toast
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast' + (isError ? ' error' : '');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+    </script>
+</body>
+</html>

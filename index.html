@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MC State</title>
-  <link rel="icon" href="./logo.png">
+  <link rel="icon" href="./logo.webp">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
@@ -486,9 +486,9 @@
     }
 
     .logo-circle {
-      width: 60px;
-      height: 60px;
-      background: url('./logo.png') center/cover;
+      width: 50px;
+      height: 50px;
+      background: url('./logo.webp') center/cover;
       border: 2px solid var(--color-primary);
       border-radius: 50%;
       box-shadow: 0 0 15px rgba(0, 212, 170, 0.4);
@@ -519,16 +519,18 @@
     }
 
     .nav-links {
-      gap: 40px;
+      gap: 22px;
       display: flex;
+      align-items: center;
     }
 
     .nav-links a {
       font-weight: 700;
       color: #ccc;
-      font-size: 1.05rem;
-      letter-spacing: 0.5px;
+      font-size: 0.92rem;
+      letter-spacing: 0.3px;
       position: relative;
+      white-space: nowrap;
     }
 
     .nav-links a:hover { color: #fff; }
@@ -633,9 +635,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: url('./bg2.png');
-      opacity: 0.3;
-      animation: gridMove 20s linear infinite;
+      background: #000000;
+      opacity: 1;
     }
 
     @keyframes gridMove {
@@ -651,7 +652,7 @@
       top: 50%;
       transform: translateY(-50%);
       opacity: 0.09;
-      background: url('./logo.png') center/contain no-repeat;
+      background: url('./logo.webp') center/contain no-repeat;
       animation: floatLogo 8s ease-in-out infinite;
       pointer-events: none;
       z-index: 1;
@@ -806,7 +807,7 @@
       transform: rotate(-5deg);
       position: relative;
       overflow: hidden;
-      background-image: url('./logo.png');
+      background-image: url('./logo.webp');
       background-size: cover;
       background-position: center;
     }
@@ -952,15 +953,49 @@
     }
 
     .job-card {
-      background: #000;
-      border-radius: 12px;
-      padding: 40px 30px;
+      background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
+      border-radius: 16px;
+      padding: 35px 30px;
       position: relative;
       overflow: hidden;
-      border: 1px solid #1a1a1a;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      text-align: left;
+      border: 1px solid #252525;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: right;
       animation: fadeInUp 0.6s ease-out backwards;
+      cursor: pointer;
+    }
+
+    .job-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+      transform: scaleX(0);
+      transition: transform 0.5s ease;
+    }
+
+    .job-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .job-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .job-card:hover::after {
+      opacity: 1;
     }
 
     .job-card:nth-child(1) { animation-delay: 0.1s; }
@@ -968,22 +1003,39 @@
     .job-card:nth-child(3) { animation-delay: 0.3s; }
 
     .job-card:hover {
-      transform: translateY(-10px);
-      border-color: rgba(0, 212, 170, 0.3);
-      box-shadow: 0 20px 40px rgba(0, 212, 170, 0.15);
+      transform: translateY(-15px) scale(1.02);
+      border-color: rgba(0, 212, 170, 0.5);
+      box-shadow: 0 25px 50px rgba(0, 212, 170, 0.2), 0 0 30px rgba(0, 212, 170, 0.1);
     }
 
     .job-logo-bg {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 8rem;
-      font-weight: 900;
+      top: 15px;
+      left: 15px;
+      width: 55px;
+      height: 55px;
+      background: rgba(0, 212, 170, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s ease;
+      z-index: 2;
+    }
+
+    .job-logo-bg i {
       color: var(--color-primary);
-      opacity: 0.08;
-      font-family: 'Outfit', sans-serif;
-      pointer-events: none;
-      z-index: 1;
+      font-size: 1.5rem !important;
+      transition: all 0.4s ease;
+    }
+
+    .job-card:hover .job-logo-bg {
+      background: var(--color-primary);
+      transform: rotate(10deg) scale(1.1);
+    }
+
+    .job-card:hover .job-logo-bg i {
+      color: #000;
     }
 
     .job-content {
@@ -993,19 +1045,24 @@
 
     .job-card h3 {
       color: var(--color-primary);
-      font-size: 1.8rem;
-      font-weight: 900;
-      margin-bottom: 20px;
-      font-family: 'Outfit', sans-serif;
-      letter-spacing: 1px;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .job-card:hover h3 {
+      text-shadow: 0 0 20px rgba(0, 212, 170, 0.5);
     }
 
     .job-desc {
-      color: #aaa;
-      line-height: 1.8;
-      margin-bottom: 25px;
+      color: #999;
+      line-height: 1.9;
+      margin-bottom: 20px;
       font-size: 0.95rem;
-      min-height: 80px;
+      min-height: 70px;
+      font-family: 'Cairo', sans-serif;
     }
 
     .job-date {
@@ -1013,10 +1070,10 @@
       align-items: center;
       gap: 10px;
       color: #666;
-      font-size: 0.9rem;
-      margin-bottom: 25px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #1a1a1a;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #252525;
     }
 
     .job-date i { color: var(--color-primary); }
@@ -1026,27 +1083,43 @@
       background: var(--color-primary);
       color: #000;
       border: none;
-      padding: 15px 25px;
+      padding: 14px 25px;
       font-size: 1rem;
       font-weight: 800;
-      border-radius: 6px;
+      border-radius: 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      font-family: 'Cairo', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .job-apply-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .job-apply-btn:hover::before {
+      left: 100%;
     }
 
     .job-apply-btn:hover {
       background: #00f5c4;
-      transform: translateX(-5px);
-      box-shadow: 0 5px 20px rgba(0, 212, 170, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 212, 170, 0.4);
     }
 
     .job-apply-btn i { transition: transform 0.3s ease; }
-    .job-apply-btn:hover i { transform: translateX(-5px); }
+    .job-apply-btn:hover i { transform: translateX(-8px); }
 
     /* ===== قسم وسائل التواصل الاجتماعي ===== */
     .social-section {
@@ -1138,6 +1211,52 @@
       background: linear-gradient(135deg, #5865F2, #4752C4);
     }
 
+    .social-icon.discord-red {
+      background: linear-gradient(135deg, #ED4245, #c23235);
+    }
+
+    .social-card.card-blue {
+      border-color: rgba(88, 101, 242, 0.2);
+    }
+    .social-card.card-blue:hover {
+      border-color: rgba(88, 101, 242, 0.6);
+      box-shadow: 0 25px 50px rgba(88, 101, 242, 0.2), 0 0 40px rgba(88, 101, 242, 0.1);
+    }
+    .social-card.card-blue::before {
+      background: linear-gradient(90deg, #5865F2, #7289DA);
+    }
+    .social-card.card-blue .social-btn {
+      background: rgba(88, 101, 242, 0.1);
+      color: #7289DA;
+      border-color: rgba(88, 101, 242, 0.3);
+    }
+    .social-card.card-blue .social-btn:hover {
+      background: #5865F2;
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+    }
+
+    .social-card.card-red {
+      border-color: rgba(237, 66, 69, 0.2);
+    }
+    .social-card.card-red:hover {
+      border-color: rgba(237, 66, 69, 0.6);
+      box-shadow: 0 25px 50px rgba(237, 66, 69, 0.2), 0 0 40px rgba(237, 66, 69, 0.1);
+    }
+    .social-card.card-red::before {
+      background: linear-gradient(90deg, #ED4245, #ff6b6b);
+    }
+    .social-card.card-red .social-btn {
+      background: rgba(237, 66, 69, 0.1);
+      color: #ED4245;
+      border-color: rgba(237, 66, 69, 0.3);
+    }
+    .social-card.card-red .social-btn:hover {
+      background: #ED4245;
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(237, 66, 69, 0.4);
+    }
+
     .social-icon.telegram {
       background: linear-gradient(135deg, #0088cc, #006699);
     }
@@ -1174,6 +1293,73 @@
       color: #000;
       transform: translateX(-5px);
       box-shadow: 0 5px 15px rgba(0, 212, 170, 0.3);
+    }
+
+    /* ===== FAQ Section ===== */
+    .faq-item {
+      background: rgba(19, 22, 28, 0.8);
+      border: 1px solid rgba(0, 212, 170, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(0, 212, 170, 0.3);
+      box-shadow: 0 5px 20px rgba(0, 212, 170, 0.1);
+    }
+
+    .faq-question {
+      padding: 20px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .faq-arrow {
+      color: var(--color-primary);
+      transition: transform 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .faq-item.active .faq-arrow {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 25px;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+      padding: 0 25px 20px;
+    }
+
+    .faq-answer p {
+      color: #aaa;
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    /* News cards hover */
+    .news-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(0, 212, 170, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Rule cards hover */
+    .rule-card:hover {
+      border-color: rgba(0, 212, 170, 0.3);
+      box-shadow: 0 5px 20px rgba(0, 212, 170, 0.1);
+      transform: translateX(-5px);
     }
 
     /* ===== زر الصعود للأعلى ===== */
@@ -1295,7 +1481,7 @@
     .footer-bottom p { color: #555; font-size: 0.9rem; }
 
     /* ===== تحسينات القائمة ===== */
-    @media (max-width: 768px) {
+    @media (max-width: 1100px) {
       .nav-links {
         display: none;
         position: fixed;
@@ -1865,11 +2051,26 @@
           <li><a href="#" onclick="navigateToPage('home')">الرئيسية</a></li>
           <li><a href="#" onclick="navigateToPage('about')">من نحن</a></li>
           <li><a href="#" onclick="navigateToPage('founders')">المؤسسين</a></li>
-          <li><a href="#" onclick="navigateToPage('social')">منصات التواصل</a></li>
+          <li><a href="#" onclick="navigateToPage('rules')">القوانين</a></li>
+          <li><a href="#" onclick="navigateToPage('faq')">الأسئلة الشائعة</a></li>
+          <li><a href="#" onclick="navigateToPage('news')">الأخبار</a></li>
+          <li><a href="#" onclick="navigateToPage('social')">الديسكورد</a></li>
           <li><a href="#" onclick="navigateToPage('jobs')">التقديم</a></li>
         </ul>
       </nav>
-      <button class="btn-angled" id="btn-login-main" onclick="openLogin()">تسجيل دخول</button>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="btn-angled" id="btn-login-main" onclick="window.location.href='./store.html'" style="padding: 8px 20px; font-size: 0.85rem;">المتجر</button>
+        <a href="https://discord.com/api/oauth2/authorize?client_id=1469795188065964384&redirect_uri=https%3A%2F%2Fksawep.github.io%2FMC%2Fcallback.html&response_type=code&scope=identify%20guilds.join" id="login-btn" class="btn-angled" style="background: transparent; border: 2px solid #5865F2; color: #5865F2; padding: 8px 20px; font-size: 0.85rem;">
+          <i class="fab fa-discord"></i> دخول
+        </a>
+        <div id="user-logged" style="display: none; align-items: center; gap: 10px;">
+          <img id="user-avatar-header" src="" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #00d4aa; cursor: pointer;">
+          <span id="user-name-header" style="color: #fff; font-weight: 600;"></span>
+          <button onclick="logoutUser()" style="background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 18px;" title="تسجيل خروج">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
       <div id="user-info" style="display:none; align-items:center; gap:15px; color:#fff;">
         <img src="" id="user-avatar"
           style="width:40px; height:40px; border-radius:50%; border:2px solid var(--color-primary); cursor:pointer;"
@@ -1893,7 +2094,15 @@
       <div class="hero-bg-logo"></div>
       <div class="hero-content">
         <h1 class="hero-title">MC State</h1>
-        <button class="btn-angled hero-btn" onclick="openLogin()">تسجيل دخول</button>
+        <p style="color: #aaa; font-size: 1.2rem; margin-bottom: 30px; animation: fadeInUp 1s ease-out 0.2s backwards;">أقوى تجربة رول بلاي عربية على FiveM</p>
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease-out 0.3s backwards;">
+          <button class="btn-angled hero-btn" onclick="window.open('https://cfx.re/join/mxjdod', '_blank')">
+            <i class="fas fa-gamepad"></i> ادخل السيرفر
+          </button>
+          <button class="btn-angled hero-btn" style="background: transparent; color: var(--color-primary);" onclick="navigateToPage('about')">
+            تعرف علينا <i class="fas fa-arrow-left"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1903,26 +2112,22 @@
       <div class="container">
         <div class="about-grid">
           <div class="about-right">
-            <h2>من نحن؟</h2>
+            <h2>MC State – تجربتك تبدأ هنا</h2>
             <div class="underline-primary"></div>
             <p>
-              نحن نبحث عن الجودة التي تليق باللاعب وصانع المحتوى. نحن نعمل منذ عام 2019
-              ولدينا الخبرة الادارية والبرمجية. ايضاً نهدف الى البحث على تطوير جودة اللعب. يوجد
-              لدينا دعم فني على مدار 24/7 ونسعى دوماً لخدمتكم.
+              MC State مو مجرد سيرفر، هو مجتمع كامل مبني على الشغف والإبداع. نقدم لك تجربة رول بلاي عربية ما لها مثيل، بنظام متطور وإدارة محترفة تضمن لك أفضل وقت تقضيه.
             </p>
-            <div class="stats-row">
-              <div class="stat-box">
-                <i class="fa-solid fa-users" style="color:#333; margin-bottom:10px; font-size:1.5rem;"></i>
-                <h3>70K+</h3><span>لاعب</span>
-              </div>
-              <div class="stat-box">
-                <i class="fa-solid fa-shield-halved" style="color:#333; margin-bottom:10px; font-size:1.5rem;"></i>
-                <h3>50+</h3><span>إداري</span>
-              </div>
-              <div class="stat-box">
-                <i class="fa-solid fa-video" style="color:#333; margin-bottom:10px; font-size:1.5rem;"></i>
-                <h3>40+</h3><span>صانع محتوى</span>
-              </div>
+            <p>
+              من أول ما تدخل السيرفر بتحس بالفرق — سكربتات حصرية، تحديثات مستمرة، وتفاصيل دقيقة تخلي كل لحظة تستاهل. سواء كنت تبي تعيش حياة مدنية، أو تدخل عالم الأعمال، أو حتى تنضم للجهات الأمنية، كل شي جاهز لك.
+            </p>
+            <p>
+              فريقنا يشتغل بكل حب عشان يوصلك أقوى تجربة ممكنة. نسمع اقتراحاتك ونطبقها، ونطور بشكل يومي عشان تكون دايم في القمة.
+            </p>
+            <div style="background: rgba(0, 212, 170, 0.1); border-right: 4px solid var(--color-primary); padding: 20px; border-radius: 10px; margin: 30px 0;">
+              <h4 style="color: var(--color-primary); margin-bottom: 10px;"><i class="fas fa-crosshairs" style="margin-left: 8px;"></i>ليش MC State؟</h4>
+              <p style="margin: 0; line-height: 1.8;">
+                لأننا نهتم بكل تفصيلة. لأن مجتمعنا هو أولويتنا. لأننا ما نوقف تطوير. ادخل وجرب بنفسك، وبتعرف ليش الكل يختار MC State.
+              </p>
             </div>
             <button class="btn-angled" onclick="navigateToPage('jobs')">إنضم إلينا</button>
           </div>
@@ -1937,49 +2142,53 @@
   <div id="foundersPage" class="page-section">
     <section class="founders-section reveal">
       <div class="container">
-        <span class="section-title-small">FOUNDERS / المؤسسين</span>
+        <span class="section-title-small">TEAM / الفريق</span>
         <h2 style="font-size: 3.5rem; color:#fff; font-weight:900; text-align:center;">المؤسسين</h2>
         <div style="width: 50px; height: 4px; background:var(--color-primary); margin: 15px auto 60px;"></div>
-        <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">مؤسسو MC State Community</p>
+        <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">العقول اللي تقف وراء MC State</p>
 
         <div class="founders-grid">
           <div class="founder-card-new">
             <div class="founder-img-new"
-              style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjI1MCIgY3k9IjI1MCIgcj0iMjUwIiBmaWxsPSIjMWExYTFhIi8+CjxwYXRoIGQ9Ik0xMzAgMTgwSDE5MEwyNTAgMjYwTDMxMCAxODBIMzcwVjQwMEgzMTBWMjQwTDI1MCA0MDBIMjIwTDE5MCAyNDBWNDAwSDEzMFYxODBaIiBmaWxsPSIjZmY4ODAwIi8+Cjwvc3ZnPg=='); background-size: cover; background-position: center;">
+              style="background: linear-gradient(135deg, #00d4aa, #007a63); display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:900; color:#000; font-family:'Outfit',sans-serif;">
+              A
             </div>
             <div class="founder-info">
-              <h4>المؤسس الأول</h4>
-              <span>FOUNDER & CEO</span>
+              <h4>𝐀𝐛𝐮 𝐒𝐪𝐫 ᶜᶠʷ</h4>
+              <span>FOUNDER & OWNER</span>
             </div>
           </div>
 
           <div class="founder-card-new">
             <div class="founder-img-new"
-              style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjI1MCIgY3k9IjI1MCIgcj0iMjUwIiBmaWxsPSIjMWExYTFhIi8+CjxwYXRoIGQ9Ik0xMzAgMTgwSDE5MEwyNTAgMjYwTDMxMCAxODBIMzcwVjQwMEgzMTBWMjQwTDI1MCA0MDBIMjIwTDE5MCAyNDBWNDAwSDEzMFYxODBaIiBmaWxsPSIjZmY4ODAwIi8+Cjwvc3ZnPg=='); background-size: cover; background-position: center;">
+              style="background: linear-gradient(135deg, #00d4aa, #007a63); display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:900; color:#000; font-family:'Outfit',sans-serif;">
+              A
             </div>
             <div class="founder-info">
-              <h4>المؤسس الثاني</h4>
+              <h4>Abdulaziz</h4>
               <span>CO-FOUNDER</span>
             </div>
           </div>
 
           <div class="founder-card-new">
             <div class="founder-img-new"
-              style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjI1MCIgY3k9IjI1MCIgcj0iMjUwIiBmaWxsPSIjMWExYTFhIi8+CjxwYXRoIGQ9Ik0xMzAgMTgwSDE5MEwyNTAgMjYwTDMxMCAxODBIMzcwVjQwMEgzMTBWMjQwTDI1MCA0MDBIMjIwTDE5MCAyNDBWNDAwSDEzMFYxODBaIiBmaWxsPSIjZmY4ODAwIi8+Cjwvc3ZnPg=='); background-size: cover; background-position: center;">
+              style="background: linear-gradient(135deg, #00d4aa, #007a63); display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:900; color:#000; font-family:'Outfit',sans-serif;">
+              X
             </div>
             <div class="founder-info">
-              <h4>المؤسس الثالث</h4>
-              <span>TECHNICAL DIRECTOR</span>
+              <h4>XVR</h4>
+              <span>CO-FOUNDER</span>
             </div>
           </div>
 
           <div class="founder-card-new">
             <div class="founder-img-new"
-              style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjI1MCIgY3k9IjI1MCIgcj0iMjUwIiBmaWxsPSIjMWExYTFhIi8+CjxwYXRoIGQ9Ik0xMzAgMTgwSDE5MEwyNTAgMjYwTDMxMCAxODBIMzcwVjQwMEgzMTBWMjQwTDI1MCA4MDBIMjIwTDE5MCAyNDBWNDAwSDEzMFYxODBaIiBmaWxsPSIjZmY4ODAwIi8+Cjwvc3ZnPg=='); background-size: cover; background-position: center;">
+              style="background: linear-gradient(135deg, #00d4aa, #007a63); display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:900; color:#000; font-family:'Outfit',sans-serif;">
+              D
             </div>
             <div class="founder-info">
-              <h4>المؤسس الرابع</h4>
-              <span>CREATIVE DIRECTOR</span>
+              <h4>𝐃𝐀𝐍𝐆𝐎𝐔𝐑★</h4>
+              <span>CO-FOUNDER</span>
             </div>
           </div>
         </div>
@@ -1991,81 +2200,321 @@
   <div id="socialPage" class="page-section">
     <section class="social-section reveal">
       <div class="container">
-        <span class="section-title-small">SOCIAL MEDIA / منصات التواصل</span>
-        <h2 style="font-size: 3.5rem; color:#fff; font-weight:900; text-align:center;">منصات التواصل</h2>
+        <span class="section-title-small">DISCORD / سيرفراتنا</span>
+        <h2 style="font-size: 3.5rem; color:#fff; font-weight:900; text-align:center;">سيرفرات الديسكورد</h2>
         <div style="width: 50px; height: 4px; background:var(--color-primary); margin: 15px auto 60px;"></div>
         <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">
-          تواصل معنا عبر منصات التواصل الاجتماعي المختلفة
+          انضم لمجتمعنا على الديسكورد وكن جزء من العائلة
         </p>
 
-        <div class="social-grid">
-          <div class="social-card">
-            <div class="social-icon twitter">
-              <i class="fab fa-twitter"></i>
-            </div>
-            <div class="social-content">
-              <h3>تويتر</h3>
-              <p>
-                تابعنا على تويتر للحصول على آخر الأخبار والتحديثات والمحتوى الحصري.
-                نشارك نصائح وأخبار حول مشاريعنا القادمة.
-              </p>
-              <a href="https://twitter.com" target="_blank" class="social-btn">
-                <span>تابعنا على تويتر</span>
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-          </div>
-
-          <div class="social-card">
-            <div class="social-icon instagram">
-              <i class="fab fa-instagram"></i>
-            </div>
-            <div class="social-content">
-              <h3>انستقرام</h3>
-              <p>
-                شاهد محتوى مرئي متميز وراء الكواليس واللحظات الخاصة.
-                شاركنا تجربتك باستخدام الهاشتاقات الخاصة بنا.
-              </p>
-              <a href="https://instagram.com" target="_blank" class="social-btn">
-                <span>تابعنا على انستقرام</span>
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-          </div>
-
-          <div class="social-card">
+        <div class="social-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 800px; margin: 70px auto 0;">
+          <!-- MC STATE - أزرق -->
+          <div class="social-card card-blue">
             <div class="social-icon discord">
               <i class="fab fa-discord"></i>
             </div>
             <div class="social-content">
-              <h3>الديسكورد</h3>
+              <h3 style="color: #7289DA;">MC STATE</h3>
               <p>
-                انضم إلى مجتمعنا النشط على الديسكورد للتواصل المباشر مع الفريق
-                والمستخدمين الآخرين والمشاركة في المناقشات.
+                السيرفر الرسمي لـ MC State — تقديمات، أخبار، تحديثات، وكل شي يخص السيرفر تلقاه هنا.
               </p>
-              <a href="https://discord.com" target="_blank" class="social-btn">
-                <span>انضم إلى السيرفر</span>
-                <i class="fas fa-external-link-alt"></i>
+              <a href="https://discord.gg/cdgc25MqxG" target="_blank" class="social-btn">
+                <span>انضم لـ MC STATE</span>
+                <i class="fab fa-discord"></i>
               </a>
             </div>
           </div>
 
-          <div class="social-card">
-            <div class="social-icon telegram">
-              <i class="fab fa-telegram"></i>
+          <!-- MC GANG - أحمر -->
+          <div class="social-card card-red">
+            <div class="social-icon discord-red">
+              <i class="fab fa-discord"></i>
             </div>
             <div class="social-content">
-              <h3>تيليجرام</h3>
+              <h3 style="color: #ED4245;">MC GANG</h3>
               <p>
-                انضم إلى قناتنا على تيليجرام للحصول على إشعارات فورية
-                عن التحديثات الجديدة والمحتوى الحصري والمزيد.
+                سيرفر العصابات والحماس — إذا تبي الأكشن والتحديات، مكانك هنا مع MC GANG.
               </p>
-              <a href="https://telegram.org" target="_blank" class="social-btn">
-                <span>انضم إلى القناة</span>
-                <i class="fas fa-external-link-alt"></i>
+              <a href="https://discord.gg/neHXTvhcxj" target="_blank" class="social-btn">
+                <span>انضم لـ MC GANG</span>
+                <i class="fab fa-discord"></i>
               </a>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== صفحة القوانين ===== -->
+  <div id="rulesPage" class="page-section">
+    <section class="rules-section reveal" style="padding: 120px 0; background: #0e1014;">
+      <div class="container">
+        <span class="section-title-small">RULES / القوانين</span>
+        <h2 style="font-size: 3.5rem; color:#fff; font-weight:900; text-align:center;">قوانين السيرفر</h2>
+        <div style="width: 50px; height: 4px; background:var(--color-primary); margin: 15px auto 40px;"></div>
+        <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">التزامك بالقوانين يضمن تجربة ممتعة للجميع</p>
+
+        <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+
+          <!-- قانون 1 -->
+          <div class="rule-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; padding: 30px; position: relative; overflow: hidden; transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+              <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--color-primary), #007a63); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 1.2rem; font-family: 'Outfit', sans-serif; flex-shrink: 0;">1</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700;">احترام جميع اللاعبين</h3>
+            </div>
+            <p style="color: #aaa; line-height: 1.8; padding-right: 60px;">يمنع منعًا باتًا السب أو الشتم أو الإهانة بأي شكل. تعامل مع الجميع باحترام سواء داخل اللعبة أو في الديسكورد. أي إساءة عنصرية أو طائفية تؤدي لبان دائم.</p>
+          </div>
+
+          <!-- قانون 2 -->
+          <div class="rule-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; padding: 30px; position: relative; overflow: hidden; transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+              <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--color-primary), #007a63); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 1.2rem; font-family: 'Outfit', sans-serif; flex-shrink: 0;">2</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700;">الالتزام بالرول بلاي (RP)</h3>
+            </div>
+            <p style="color: #aaa; line-height: 1.8; padding-right: 60px;">يجب عليك التمثيل بشخصيتك بشكل واقعي. ممنوع كسر الرول (Breaking RP) أو استخدام معلومات خارج اللعبة (Metagaming). عش شخصيتك وتفاعل مع الأحداث بشكل طبيعي.</p>
+          </div>
+
+          <!-- قانون 3 -->
+          <div class="rule-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; padding: 30px; position: relative; overflow: hidden; transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+              <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--color-primary), #007a63); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 1.2rem; font-family: 'Outfit', sans-serif; flex-shrink: 0;">3</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700;">ممنوع VDM و RDM</h3>
+            </div>
+            <p style="color: #aaa; line-height: 1.8; padding-right: 60px;">يمنع قتل اللاعبين بدون سبب (RDM) أو دهسهم بالمركبات بدون مبرر (VDM). أي عملية قتل لازم يكون لها سبب منطقي داخل الرول ومبررات واضحة.</p>
+          </div>
+
+          <!-- قانون 4 -->
+          <div class="rule-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; padding: 30px; position: relative; overflow: hidden; transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+              <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--color-primary), #007a63); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 1.2rem; font-family: 'Outfit', sans-serif; flex-shrink: 0;">4</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700;">ممنوع الغش والهاكات</h3>
+            </div>
+            <p style="color: #aaa; line-height: 1.8; padding-right: 60px;">استخدام أي برامج غش أو تعديلات غير مصرح بها يؤدي لبان دائم بدون إنذار. يشمل ذلك: Aimbot، Wallhack، Speed Hack، Mod Menus، وأي أداة تعطيك ميزة غير عادلة.</p>
+          </div>
+
+          <!-- قانون 5 -->
+          <div class="rule-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; padding: 30px; position: relative; overflow: hidden; transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+              <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--color-primary), #007a63); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 1.2rem; font-family: 'Outfit', sans-serif; flex-shrink: 0;">5</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700;">احترام قرارات الإدارة</h3>
+            </div>
+            <p style="color: #aaa; line-height: 1.8; padding-right: 60px;">قرارات الإدارة نهائية ويجب احترامها. إذا عندك اعتراض، قدم تذكرة دعم بشكل محترم. الجدال العلني مع الإدارة أو التشكيك في قراراتهم بشكل غير لائق قد يعرضك للعقوبة.</p>
+          </div>
+
+          <!-- قانون 6 -->
+          <div class="rule-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; padding: 30px; position: relative; overflow: hidden; transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+              <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--color-primary), #007a63); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 1.2rem; font-family: 'Outfit', sans-serif; flex-shrink: 0;">6</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700;">ممنوع Powergaming</h3>
+            </div>
+            <p style="color: #aaa; line-height: 1.8; padding-right: 60px;">لا تجبر لاعبين ثانيين على رول معين أو تسوي أشياء مستحيلة واقعيًا. الرول لازم يكون واقعي ومنطقي، ولازم تعطي الطرف الثاني فرصة يتفاعل ويرد.</p>
+          </div>
+
+          <!-- قانون 7 -->
+          <div class="rule-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; padding: 30px; position: relative; overflow: hidden; transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+              <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--color-primary), #007a63); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 1.2rem; font-family: 'Outfit', sans-serif; flex-shrink: 0;">7</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700;">ممنوع New Life Rule (NLR)</h3>
+            </div>
+            <p style="color: #aaa; line-height: 1.8; padding-right: 60px;">إذا توفيت شخصيتك، ما تقدر ترجع لنفس الموقف أو تنتقم. تبدأ حياة جديدة وتنسى الأحداث اللي أدت لوفاتك. خل الرول يمشي بشكل طبيعي.</p>
+          </div>
+
+          <!-- قانون 8 -->
+          <div class="rule-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; padding: 30px; position: relative; overflow: hidden; transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 12px;">
+              <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--color-primary), #007a63); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 1.2rem; font-family: 'Outfit', sans-serif; flex-shrink: 0;">8</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700;">استخدام المايك بشكل صحيح</h3>
+            </div>
+            <p style="color: #aaa; line-height: 1.8; padding-right: 60px;">ممنوع تشغيل أصوات مزعجة أو موسيقى في المايك. تكلم بصوت واضح ومحترم. استخدام مغير الصوت مسموح فقط إذا كان يخدم الرول بلاي.</p>
+          </div>
+
+        </div>
+
+        <div style="text-align: center; margin-top: 50px;">
+          <div style="background: rgba(237, 66, 69, 0.1); border: 1px solid rgba(237, 66, 69, 0.3); border-radius: 12px; padding: 20px 30px; display: inline-block;">
+            <p style="color: #ED4245; font-weight: 700; margin: 0;"><i class="fas fa-exclamation-triangle"></i> مخالفة القوانين تعرضك للعقوبة — من إنذار إلى بان دائم حسب المخالفة</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== صفحة الأسئلة الشائعة ===== -->
+  <div id="faqPage" class="page-section">
+    <section class="faq-section reveal" style="padding: 120px 0; background: var(--color-bg-dark);">
+      <div class="container">
+        <span class="section-title-small">FAQ / أسئلة شائعة</span>
+        <h2 style="font-size: 3.5rem; color:#fff; font-weight:900; text-align:center;">الأسئلة الشائعة</h2>
+        <div style="width: 50px; height: 4px; background:var(--color-primary); margin: 15px auto 40px;"></div>
+        <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">كل شي تحتاج تعرفه قبل ما تدخل MC State</p>
+
+        <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              <span><i class="fas fa-gamepad" style="color: var(--color-primary); margin-left: 10px;"></i> كيف أدخل السيرفر؟</span>
+              <i class="fas fa-chevron-down faq-arrow"></i>
+            </div>
+            <div class="faq-answer">
+              <p>أول شي حمّل FiveM من الموقع الرسمي <strong>fivem.net</strong>، بعدها ادخل على الرابط التالي وبيفتح لك السيرفر مباشرة: <a href="https://cfx.re/join/mxjdod" target="_blank" style="color: var(--color-primary);">cfx.re/join/mxjdod</a> أو ابحث عن <strong>MC State</strong> في قائمة السيرفرات.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              <span><i class="fas fa-desktop" style="color: var(--color-primary); margin-left: 10px;"></i> وش متطلبات الجهاز؟</span>
+              <i class="fas fa-chevron-down faq-arrow"></i>
+            </div>
+            <div class="faq-answer">
+              <p>تحتاج نسخة أصلية من GTA V على أي منصة (Steam, Epic, Rockstar). بالنسبة للمواصفات: معالج i5 أو أعلى، 8GB رام كحد أدنى (16GB أفضل)، وكرت شاشة GTX 960 أو أعلى. واتصال إنترنت مستقر.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              <span><i class="fas fa-file-alt" style="color: var(--color-primary); margin-left: 10px;"></i> كيف أقدم على وظيفة؟</span>
+              <i class="fas fa-chevron-down faq-arrow"></i>
+            </div>
+            <div class="faq-answer">
+              <p>روح لصفحة "<strong>التقديم</strong>" في الموقع، اختر الوظيفة اللي تبيها (عسكرية، إدارة، أو ستريمر)، وعبّي النموذج بالكامل. تقديمك بيوصل لفريق الإدارة وبيتم الرد عليك في الديسكورد.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              <span><i class="fas fa-users" style="color: var(--color-primary); margin-left: 10px;"></i> كيف أنضم لعصابة أو جهة؟</span>
+              <i class="fas fa-chevron-down faq-arrow"></i>
+            </div>
+            <div class="faq-answer">
+              <p>العصابات والجهات لها نظام خاص داخل السيرفر. تقدر تتواصل مع قادة العصابات داخل الرول بلاي أو تقدم طلب رسمي عبر الديسكورد. بالنسبة للجهات الأمنية، قدم من صفحة التقديم.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              <span><i class="fas fa-ban" style="color: var(--color-primary); margin-left: 10px;"></i> انبنت! كيف أقدم طلب فك بان؟</span>
+              <i class="fas fa-chevron-down faq-arrow"></i>
+            </div>
+            <div class="faq-answer">
+              <p>افتح تذكرة في سيرفر الديسكورد الرسمي واكتب سبب البان واعتذارك. الإدارة بتراجع طلبك وبترد عليك. ننصحك تكون صادق ومحترم عشان تزيد فرصة قبول طلبك.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              <span><i class="fas fa-shopping-cart" style="color: var(--color-primary); margin-left: 10px;"></i> كيف أشتري من المتجر؟</span>
+              <i class="fas fa-chevron-down faq-arrow"></i>
+            </div>
+            <div class="faq-answer">
+              <p>ادخل على صفحة المتجر من الموقع، اختر المنتج اللي تبيه، وأكمل عملية الشراء. المنتجات بتتفعل تلقائيًا على حسابك في السيرفر بعد الدفع.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              <span><i class="fas fa-clock" style="color: var(--color-primary); margin-left: 10px;"></i> متى السيرفر يكون شغال؟</span>
+              <i class="fas fa-chevron-down faq-arrow"></i>
+            </div>
+            <div class="faq-answer">
+              <p>السيرفر شغال 24/7 على مدار الساعة! أوقات الذروة عادةً تكون من الساعة 6 المساء إلى 2 الصبح بتوقيت السعودية.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== صفحة الأخبار ===== -->
+  <div id="newsPage" class="page-section">
+    <section class="news-section reveal" style="padding: 120px 0; background: #0e1014;">
+      <div class="container">
+        <span class="section-title-small">NEWS / الأخبار</span>
+        <h2 style="font-size: 3.5rem; color:#fff; font-weight:900; text-align:center;">آخر الأخبار والتحديثات</h2>
+        <div style="width: 50px; height: 4px; background:var(--color-primary); margin: 15px auto 40px;"></div>
+        <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">تابع كل جديد في MC State</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1100px; margin: 0 auto;">
+
+          <!-- خبر 1 -->
+          <div class="news-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; overflow: hidden; transition: all 0.4s ease;">
+            <div style="background: linear-gradient(135deg, var(--color-primary), #007a63); padding: 25px; position: relative;">
+              <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; color: #fff;"><i class="fas fa-fire"></i> جديد</div>
+              <i class="fas fa-rocket" style="font-size: 3rem; color: rgba(0,0,0,0.3);"></i>
+            </div>
+            <div style="padding: 25px;">
+              <div style="color: #666; font-size: 0.8rem; margin-bottom: 10px;"><i class="far fa-calendar"></i> 2025</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">تحديث ضخم قادم!</h3>
+              <p style="color: #aaa; line-height: 1.7; font-size: 0.95rem;">نشتغل على تحديث كبير بيغير شكل السيرفر بالكامل — سكربتات جديدة، مناطق مفتوحة أكثر، ونظام اقتصادي متطور. ترقبوا المفاجآت!</p>
+            </div>
+          </div>
+
+          <!-- خبر 2 -->
+          <div class="news-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; overflow: hidden; transition: all 0.4s ease;">
+            <div style="background: linear-gradient(135deg, #5865F2, #4752C4); padding: 25px; position: relative;">
+              <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; color: #fff;"><i class="fas fa-bullhorn"></i> إعلان</div>
+              <i class="fab fa-discord" style="font-size: 3rem; color: rgba(0,0,0,0.3);"></i>
+            </div>
+            <div style="padding: 25px;">
+              <div style="color: #666; font-size: 0.8rem; margin-bottom: 10px;"><i class="far fa-calendar"></i> 2025</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">مجتمعنا يكبر!</h3>
+              <p style="color: #aaa; line-height: 1.7; font-size: 0.95rem;">الحمدلله وصلنا لأرقام ما توقعناها! مجتمع MC State يكبر يوم عن يوم بفضلكم. شكرًا لكل شخص انضم وساهم في بناء هالمجتمع الرهيب.</p>
+            </div>
+          </div>
+
+          <!-- خبر 3 -->
+          <div class="news-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; overflow: hidden; transition: all 0.4s ease;">
+            <div style="background: linear-gradient(135deg, #f5a623, #e08e0b); padding: 25px; position: relative;">
+              <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; color: #fff;"><i class="fas fa-star"></i> مميز</div>
+              <i class="fas fa-store" style="font-size: 3rem; color: rgba(0,0,0,0.3);"></i>
+            </div>
+            <div style="padding: 25px;">
+              <div style="color: #666; font-size: 0.8rem; margin-bottom: 10px;"><i class="far fa-calendar"></i> 2025</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">المتجر متاح الحين!</h3>
+              <p style="color: #aaa; line-height: 1.7; font-size: 0.95rem;">المتجر الرسمي لـ MC State صار جاهز! تقدر تتصفح المنتجات وتشتري اللي يعجبك بسهولة. سيارات حصرية، ملابس مميزة، وباقات خاصة بأسعار مناسبة.</p>
+            </div>
+          </div>
+
+          <!-- خبر 4 -->
+          <div class="news-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; overflow: hidden; transition: all 0.4s ease;">
+            <div style="background: linear-gradient(135deg, #ED4245, #c23235); padding: 25px; position: relative;">
+              <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; color: #fff;"><i class="fas fa-gamepad"></i> جيم بلاي</div>
+              <i class="fas fa-car" style="font-size: 3rem; color: rgba(0,0,0,0.3);"></i>
+            </div>
+            <div style="padding: 25px;">
+              <div style="color: #666; font-size: 0.8rem; margin-bottom: 10px;"><i class="far fa-calendar"></i> 2025</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">سيارات جديدة ورهيبة!</h3>
+              <p style="color: #aaa; line-height: 1.7; font-size: 0.95rem;">أضفنا مجموعة سيارات جديدة خرافية للسيرفر — سوبر كارز، دبابات، وسيارات كلاسيكية. كلها بتفاصيل عالية ومعدّلة بشكل يناسب تجربة الرول بلاي.</p>
+            </div>
+          </div>
+
+          <!-- خبر 5 -->
+          <div class="news-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; overflow: hidden; transition: all 0.4s ease;">
+            <div style="background: linear-gradient(135deg, #00d4aa, #007a63); padding: 25px; position: relative;">
+              <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; color: #fff;"><i class="fas fa-users"></i> مجتمع</div>
+              <i class="fas fa-trophy" style="font-size: 3rem; color: rgba(0,0,0,0.3);"></i>
+            </div>
+            <div style="padding: 25px;">
+              <div style="color: #666; font-size: 0.8rem; margin-bottom: 10px;"><i class="far fa-calendar"></i> 2025</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">فعاليات ومسابقات قادمة</h3>
+              <p style="color: #aaa; line-height: 1.7; font-size: 0.95rem;">جهزوا نفسكم! عندنا فعاليات ومسابقات بجوائز قيّمة قادمة قريب. سباقات، تحديات رول بلاي، وأكثر. تابعونا في الديسكورد عشان ما يفوتكم شي!</p>
+            </div>
+          </div>
+
+          <!-- خبر 6 -->
+          <div class="news-card" style="background: rgba(19, 22, 28, 0.8); border: 1px solid rgba(0, 212, 170, 0.1); border-radius: 15px; overflow: hidden; transition: all 0.4s ease;">
+            <div style="background: linear-gradient(135deg, #9b59b6, #8e44ad); padding: 25px; position: relative;">
+              <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; color: #fff;"><i class="fas fa-code"></i> تطوير</div>
+              <i class="fas fa-code" style="font-size: 3rem; color: rgba(0,0,0,0.3);"></i>
+            </div>
+            <div style="padding: 25px;">
+              <div style="color: #666; font-size: 0.8rem; margin-bottom: 10px;"><i class="far fa-calendar"></i> 2025</div>
+              <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">تحسينات الأداء والاستقرار</h3>
+              <p style="color: #aaa; line-height: 1.7; font-size: 0.95rem;">فريقنا التقني يشتغل بشكل مستمر على تحسين أداء السيرفر وتقليل اللاق. التحسينات الأخيرة رفعت الاستقرار بشكل ملحوظ وجودة التجربة صارت أفضل بكثير.</p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -2077,56 +2526,55 @@
         <span class="section-title-small">APPLY / التقديم</span>
         <h2 style="font-size: 3.5rem; color:#fff; font-weight:900; text-align:center;">التقديم</h2>
         <div style="width: 50px; height: 4px; background:var(--color-primary); margin: 15px auto 60px;"></div>
-        <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">يمكنك التقديم على الوظائف
-          المتاحة / You can apply for available positions</p>
+        <p style="text-align:center; color:#aaa; margin-bottom:60px; font-size:1.1rem;">انضم لفريق MC State واختر الوظيفة المناسبة لك</p>
 
         <div class="jobs-grid">
-          <div class="job-card">
-            <div class="job-logo-bg">MC</div>
+          <!-- العسكرية -->
+          <div class="job-card" onclick="openApplicationModal('military')">
+            <div class="job-logo-bg"><i class="fas fa-shield-alt" style="font-size: 2rem;"></i></div>
             <div class="job-content">
-              <h3>PROJECT MANAGER</h3>
-              <p class="job-desc">Job description : We are seeking a remote Project Manager with a strong technical
-                background to lead the development & operations...</p>
+              <h3>العسكرية</h3>
+              <p class="job-desc">انضم للقوات العسكرية وساهم في حماية المدينة وتطبيق القانون والعمل ضمن فريق محترف.</p>
               <div class="job-date">
-                <i class="fa-solid fa-calendar"></i>
-                <span>2025-11-17</span>
+                <i class="fa-solid fa-users"></i>
+                <span>متاح للتقديم</span>
               </div>
-              <button class="job-apply-btn" onclick="openApply('Project Manager')">
-                <span>التقديم الآن / Apply Now</span>
+              <button class="job-apply-btn">
+                <span>التقديم الآن</span>
                 <i class="fa-solid fa-arrow-left"></i>
               </button>
             </div>
           </div>
 
-          <div class="job-card">
-            <div class="job-logo-bg">MC</div>
+          <!-- الإدارة -->
+          <div class="job-card" onclick="openApplicationModal('admin')">
+            <div class="job-logo-bg"><i class="fas fa-user-shield" style="font-size: 2rem;"></i></div>
             <div class="job-content">
-              <h3>3D GENERALIST</h3>
-              <p class="job-desc">Job description : We are looking for a remote 3D Artist to create high-quality 3D
-                assets (maps, props, cars, characters...)...</p>
+              <h3>الإدارة</h3>
+              <p class="job-desc">انضم لفريق الإدارة وساعد في إدارة السيرفر ومساعدة اللاعبين وحل المشاكل.</p>
               <div class="job-date">
-                <i class="fa-solid fa-calendar"></i>
-                <span>2025-11-17</span>
+                <i class="fa-solid fa-users"></i>
+                <span>متاح للتقديم</span>
               </div>
-              <button class="job-apply-btn" onclick="openApply('3D Generalist')">
-                <span>التقديم الآن / Apply Now</span>
+              <button class="job-apply-btn">
+                <span>التقديم الآن</span>
                 <i class="fa-solid fa-arrow-left"></i>
               </button>
             </div>
           </div>
 
-          <div class="job-card">
-            <div class="job-logo-bg">MC</div>
+          <!-- الستريمر -->
+          <div class="job-card" onclick="openApplicationModal('streamer')">
+            <div class="job-logo-bg"><i class="fas fa-video" style="font-size: 2rem;"></i></div>
             <div class="job-content">
-              <h3>GAMEPLAY PROGRAMMER</h3>
-              <p class="job-desc">Job description : We are seeking a remote Developer for a FiveM server. You will
-                design and implement the server...</p>
+              <h3>الستريمر</h3>
+              <p class="job-desc">صانع محتوى؟ انضم لنا! الحد الأدنى 200 متابع. شارك إبداعك مع مجتمع MC State.</p>
               <div class="job-date">
-                <i class="fa-solid fa-calendar"></i>
-                <span>2025-11-17</span>
+                <i class="fa-solid fa-users"></i>
+                <span>الحد الأدنى 200 متابع</span>
               </div>
-              <button class="job-apply-btn" onclick="openApply('Gameplay Programmer')">
-                <span>التقديم الآن / Apply Now</span>
+              <button class="job-apply-btn">
+                <span>التقديم الآن</span>
                 <i class="fa-solid fa-arrow-left"></i>
               </button>
             </div>
@@ -2136,13 +2584,158 @@
     </section>
   </div>
 
+  <!-- Modal: العسكرية -->
+  <div id="modal-military" class="modal" style="display:none;">
+    <div class="login-content" style="max-width: 550px;">
+      <div class="login-header">
+        <h2><i class="fas fa-shield-alt" style="color: var(--color-primary);"></i> تقديم العسكرية</h2>
+        <p>املأ النموذج للانضمام للقوات العسكرية</p>
+      </div>
+      <form onsubmit="submitApplicationForm(event, 'military')">
+        <div class="form-group">
+          <label>اسمك <span style="color:#dc3545;">*</span></label>
+          <input type="text" id="mil-name" placeholder="أدخل اسمك الحقيقي" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>اسم الشخصية <span style="color:#dc3545;">*</span></label>
+          <input type="text" id="mil-character" placeholder="اسم شخصيتك في السيرفر" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>اسم الديسكورد <span style="color:#dc3545;">*</span></label>
+          <input type="text" id="mil-discord" placeholder="مثال: ahmed#1234" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>العمر <span style="color:#dc3545;">*</span></label>
+          <input type="number" id="mil-age" placeholder="عمرك" min="13" max="99" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div style="margin-bottom: 20px;">
+          <input type="checkbox" id="mil-rules" required style="margin-left: 8px;">
+          <label for="mil-rules">أوافق على قوانين السيرفر</label>
+        </div>
+        <button type="submit" class="login-btn" id="mil-submit-btn">
+          <i class="fas fa-paper-plane"></i> إرسال التقديم
+        </button>
+      </form>
+      <button class="cancel-btn" onclick="closeApplicationModal('military')">
+        <i class="fas fa-times"></i> إغلاق
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: الإدارة -->
+  <div id="modal-admin" class="modal" style="display:none;">
+    <div class="login-content" style="max-width: 550px;">
+      <div class="login-header">
+        <h2><i class="fas fa-user-shield" style="color: var(--color-primary);"></i> تقديم الإدارة</h2>
+        <p>املأ النموذج للانضمام لفريق الإدارة</p>
+      </div>
+      <form onsubmit="submitApplicationForm(event, 'admin')">
+        <div class="form-group">
+          <label>اسمك <span style="color:#dc3545;">*</span></label>
+          <input type="text" id="adm-name" placeholder="أدخل اسمك الحقيقي" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>اسم حسابك ديسكورد <span style="color:#dc3545;">*</span></label>
+          <input type="text" id="adm-discord" placeholder="مثال: ahmed#1234" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>العمر <span style="color:#dc3545;">*</span></label>
+          <input type="number" id="adm-age" placeholder="عمرك" min="13" max="99" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>الخبرات الإدارية <span style="color:#dc3545;">*</span></label>
+          <textarea id="adm-experience" placeholder="اكتب خبراتك الإدارية السابقة..." required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff; min-height:80px; resize:vertical;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>سبب التقديم <span style="color:#dc3545;">*</span></label>
+          <textarea id="adm-reason" placeholder="لماذا تريد الانضمام للإدارة؟" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff; min-height:80px; resize:vertical;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>هل كنت إداري بسيرفر آخر؟ <span style="color:#dc3545;">*</span></label>
+          <select id="adm-previous" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+            <option value="">اختر...</option>
+            <option value="نعم">نعم</option>
+            <option value="لا">لا</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 20px;">
+          <input type="checkbox" id="adm-rules" required style="margin-left: 8px;">
+          <label for="adm-rules">أوافق على قوانين السيرفر</label>
+        </div>
+        <button type="submit" class="login-btn" id="adm-submit-btn">
+          <i class="fas fa-paper-plane"></i> إرسال التقديم
+        </button>
+      </form>
+      <button class="cancel-btn" onclick="closeApplicationModal('admin')">
+        <i class="fas fa-times"></i> إغلاق
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: الستريمر -->
+  <div id="modal-streamer" class="modal" style="display:none;">
+    <div class="login-content" style="max-width: 550px;">
+      <div class="login-header">
+        <h2><i class="fas fa-video" style="color: var(--color-primary);"></i> تقديم الستريمر</h2>
+        <p>املأ النموذج للانضمام كصانع محتوى</p>
+      </div>
+      <div style="background: rgba(0, 212, 170, 0.1); border-right: 3px solid var(--color-primary); padding: 12px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; color: #aaa;">
+        <i class="fas fa-info-circle" style="color: var(--color-primary); margin-left: 5px;"></i>
+        ملاحظة: عدد المتابعين لا يقل عن 200
+      </div>
+      <form onsubmit="submitApplicationForm(event, 'streamer')">
+        <div class="form-group">
+          <label>اسم الديسكورد <span style="color:#dc3545;">*</span></label>
+          <input type="text" id="str-discord" placeholder="مثال: ahmed#1234" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>اسم المنصة <span style="color:#dc3545;">*</span></label>
+          <select id="str-platform" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+            <option value="">اختر المنصة...</option>
+            <option value="YouTube">YouTube</option>
+            <option value="Twitch">Twitch</option>
+            <option value="TikTok">TikTok</option>
+            <option value="Kick">Kick</option>
+            <option value="أخرى">أخرى</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>اسم القناة أو الحساب <span style="color:#dc3545;">*</span></label>
+          <input type="text" id="str-channel" placeholder="اسم قناتك أو حسابك" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>عدد المتابعين أو المشتركين <span style="color:#dc3545;">*</span></label>
+          <input type="number" id="str-followers" placeholder="الحد الأدنى 200" min="200" required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>رابط القناة أو الحساب <span style="color:#dc3545;">*</span></label>
+          <input type="url" id="str-link" placeholder="https://..." required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff;">
+        </div>
+        <div class="form-group">
+          <label>خبراتك وماذا ستقدم للسيرفر؟ <span style="color:#dc3545;">*</span></label>
+          <textarea id="str-experience" placeholder="اكتب خبراتك وما ستقدمه..." required style="width:100%; padding:12px 15px; background:rgba(58,58,74,0.8); border:1px solid #444; border-radius:8px; color:#fff; min-height:80px; resize:vertical;"></textarea>
+        </div>
+        <div style="margin-bottom: 20px;">
+          <input type="checkbox" id="str-rules" required style="margin-left: 8px;">
+          <label for="str-rules">قرأت القوانين وأوافق عليها</label>
+        </div>
+        <button type="submit" class="login-btn" id="str-submit-btn">
+          <i class="fas fa-paper-plane"></i> إرسال التقديم
+        </button>
+      </form>
+      <button class="cancel-btn" onclick="closeApplicationModal('streamer')">
+        <i class="fas fa-times"></i> إغلاق
+      </button>
+    </div>
+  </div>
+
   <footer>
     <div class="container">
       <div class="footer-content">
         <div class="footer-logo">
           <div class="logo-circle" onclick="navigateToPage('home')"></div>
           <p>
-            مجتمع MC State يهدف إلى توفير أفضل تجربة للاعبين وصانعي المحتوى.
+            MC State - أفضل سيرفر FiveM عربي للرول بلاي.
             نحن نعمل منذ عام 2019 ولدينا خبرة إدارية وبرمجية واسعة.
           </p>
         </div>
@@ -2154,27 +2747,28 @@
               <li><a href="#" onclick="navigateToPage('home')"><i class="fas fa-home"></i> الرئيسية</a></li>
               <li><a href="#" onclick="navigateToPage('about')"><i class="fas fa-info-circle"></i> من نحن</a></li>
               <li><a href="#" onclick="navigateToPage('founders')"><i class="fas fa-users"></i> المؤسسين</a></li>
-              <li><a href="#" onclick="navigateToPage('social')"><i class="fas fa-share-alt"></i> منصات التواصل</a></li>
+              <li><a href="#" onclick="navigateToPage('rules')"><i class="fas fa-gavel"></i> القوانين</a></li>
+              <li><a href="#" onclick="navigateToPage('faq')"><i class="fas fa-question-circle"></i> الأسئلة الشائعة</a></li>
+              <li><a href="#" onclick="navigateToPage('news')"><i class="fas fa-newspaper"></i> الأخبار</a></li>
+              <li><a href="#" onclick="navigateToPage('social')"><i class="fab fa-discord"></i> الديسكورد</a></li>
             </ul>
           </div>
           
           <div class="footer-column">
             <h4>خدماتنا</h4>
             <ul>
+              <li><a href="https://cfx.re/join/mxjdod" target="_blank"><i class="fas fa-gamepad"></i> ادخل السيرفر</a></li>
               <li><a href="#" onclick="navigateToPage('jobs')"><i class="fas fa-briefcase"></i> التقديم على الوظائف</a></li>
-              <li><a href="#" onclick="openLogin()"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</a></li>
+              <li><a href="./store.html"><i class="fas fa-shopping-cart"></i> المتجر</a></li>
               <li><a href="#" onclick="openRegister()"><i class="fas fa-user-plus"></i> إنشاء حساب</a></li>
-              <li><a href="#" onclick="showNotification('صفحة الدعم قيد التطوير', 'info')"><i class="fas fa-headset"></i> الدعم الفني</a></li>
             </ul>
           </div>
           
           <div class="footer-column">
-            <h4>منصات التواصل</h4>
+            <h4>سيرفرات الديسكورد</h4>
             <ul>
-              <li><a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i> تويتر</a></li>
-              <li><a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i> انستقرام</a></li>
-              <li><a href="https://discord.com" target="_blank"><i class="fab fa-discord"></i> ديسكورد</a></li>
-              <li><a href="https://telegram.org" target="_blank"><i class="fab fa-telegram"></i> تيليجرام</a></li>
+              <li><a href="https://discord.gg/cdgc25MqxG" target="_blank"><i class="fab fa-discord" style="color:#5865F2;"></i> MC STATE</a></li>
+              <li><a href="https://discord.gg/neHXTvhcxj" target="_blank"><i class="fab fa-discord" style="color:#ED4245;"></i> MC GANG</a></li>
             </ul>
           </div>
         </div>
@@ -2191,273 +2785,6 @@
     </div>
   </footer>
 
-  <!-- ===== مودال تسجيل الدخول ===== -->
-  <div id="loginModal" class="modal">
-    <div class="login-content">
-      <div class="login-header">
-        <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-        <p>أدخل بيانات حسابك للدخول</p>
-      </div>
-
-      <div id="login-error" class="error-message" style="display: none; text-align: center; margin-bottom: 15px;"></div>
-
-      <div class="form-group">
-        <label>اسم المستخدم أو البريد الإلكتروني</label>
-        <input type="text" id="login-username" placeholder="اسم المستخدم أو الإيميل *" required>
-        <div class="error-message" id="login-username-error"></div>
-      </div>
-
-      <div class="form-group">
-        <label>كلمة المرور</label>
-        <input type="password" id="login-password" placeholder="كلمة المرور *" required>
-        <div class="error-message" id="login-password-error"></div>
-      </div>
-
-      <button class="login-btn" onclick="handleLogin()">
-        <i class="fas fa-sign-in-alt"></i> تسجيل دخول
-      </button>
-
-      <div class="link-text">
-        <a href="#" onclick="startDiscordAuthForPasswordReset()">نسيت كلمة المرور؟</a>
-      </div>
-
-      <div class="divider">
-        <span>أو</span>
-      </div>
-
-      <div class="platform-buttons">
-        <button class="platform-btn discord" onclick="startDiscordAuth()">
-          <i class="fab fa-discord"></i>
-          <span>الدخول باستخدام Discord</span>
-        </button>
-
-        <button class="platform-btn steam" onclick="startSteamAuth()">
-          <i class="fab fa-steam"></i>
-          <span>الدخول باستخدام Steam</span>
-        </button>
-      </div>
-
-      <div class="link-text">
-        لا تمتلك حساب؟ <a href="#" onclick="openRegister()">إنشاء حساب جديد</a>
-      </div>
-
-      <button class="cancel-btn" onclick="closeModal('loginModal')">
-        <i class="fas fa-times"></i> إلغاء
-      </button>
-    </div>
-  </div>
-
-  <!-- ===== مودال إنشاء حساب جديد ===== -->
-  <div id="registerModal" class="modal">
-    <div class="register-content">
-      <div class="register-header">
-        <h2><i class="fas fa-user-plus"></i> إنشاء حساب جديد</h2>
-        <p>املأ النموذج أدناه لإنشاء حساب جديد</p>
-      </div>
-
-      <div class="progress-steps">
-        <div class="step active" id="step1">
-          1
-          <span class="step-label">المعلومات الأساسية</span>
-        </div>
-        <div class="step" id="step2">
-          2
-          <span class="step-label">تفاصيل الحساب</span>
-        </div>
-        <div class="step" id="step3">
-          3
-          <span class="step-label">التأكيد</span>
-        </div>
-      </div>
-
-      <!-- الخطوة 1: المعلومات الأساسية -->
-      <div id="register-step1" class="register-step">
-        <div class="form-group">
-          <label>اسم المستخدم</label>
-          <input type="text" id="register-username" placeholder="اسم المستخدم (3-20 حرف) *" required>
-          <div class="error-message" id="username-error"></div>
-        </div>
-
-        <div class="form-group">
-          <label>البريد الإلكتروني</label>
-          <input type="email" id="register-email" placeholder="example@email.com *" required>
-          <div class="error-message" id="email-error"></div>
-        </div>
-
-        <div class="form-actions">
-          <button class="cancel-btn" onclick="closeModal('registerModal')">
-            إلغاء
-          </button>
-          <button class="register-btn" onclick="nextRegisterStep(2)">
-            التالي <i class="fas fa-arrow-left"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- الخطوة 2: تفاصيل الحساب -->
-      <div id="register-step2" class="register-step" style="display: none;">
-        <div class="form-group">
-          <label>كلمة المرور</label>
-          <input type="password" id="register-password" placeholder="كلمة المرور (8 أحرف على الأقل) *" required>
-          <div class="password-strength" id="password-strength">
-            <div class="password-strength-bar"></div>
-          </div>
-          <div class="error-message" id="password-error"></div>
-        </div>
-
-        <div class="form-group">
-          <label>أعد كتابة كلمة المرور</label>
-          <input type="password" id="register-confirm-password" placeholder="أعد كتابة كلمة المرور *" required>
-          <div class="error-message" id="confirm-password-error"></div>
-        </div>
-
-        <div class="form-actions">
-          <button class="cancel-btn" onclick="prevRegisterStep(1)">
-            <i class="fas fa-arrow-right"></i> السابق
-          </button>
-          <button class="register-btn" onclick="nextRegisterStep(3)">
-            التالي <i class="fas fa-arrow-left"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- الخطوة 3: التأكيد -->
-      <div id="register-step3" class="register-step" style="display: none;">
-        <div class="form-group">
-          <label>رقم الهاتف (اختياري)</label>
-          <input type="tel" id="register-phone" placeholder="+962 7X XXX XXXX">
-          <div class="error-message" id="phone-error"></div>
-        </div>
-
-        <div class="form-group">
-          <label>البلد (اختياري)</label>
-          <select id="register-country" style="width: 100%; padding: 12px 15px; background: rgba(58, 58, 74, 0.8); border: 1px solid #444; border-radius: 8px; color: white;">
-            <option value="">اختر البلد</option>
-            <option value="JO">الأردن</option>
-            <option value="SA">السعودية</option>
-            <option value="AE">الإمارات</option>
-            <option value="QA">قطر</option>
-            <option value="KW">الكويت</option>
-            <option value="BH">البحرين</option>
-            <option value="OM">عمان</option>
-            <option value="EG">مصر</option>
-            <option value="LB">لبنان</option>
-            <option value="SY">سوريا</option>
-          </select>
-        </div>
-
-        <div class="terms-notice">
-          <p>
-            <input type="checkbox" id="register-terms" style="margin-left: 5px;">
-            أوافق على <a href="#" onclick="showTerms()">شروط الخدمة</a> و <a href="#" onclick="showPrivacy()">سياسة الخصوصية</a>
-          </p>
-          <div class="error-message" id="terms-error"></div>
-        </div>
-
-        <div class="form-actions">
-          <button class="cancel-btn" onclick="prevRegisterStep(2)">
-            <i class="fas fa-arrow-right"></i> السابق
-          </button>
-          <button class="register-btn" onclick="submitRegistration()">
-            <i class="fas fa-check"></i> إنشاء الحساب
-          </button>
-        </div>
-      </div>
-
-      <div class="link-text">
-        لديك حساب بالفعل؟ <a href="#" onclick="openLogin()">تسجيل دخول</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== مودال تغيير كلمة المرور ===== -->
-  <div id="changePasswordModal" class="modal">
-    <div class="login-content">
-      <div class="login-header">
-        <h2><i class="fas fa-key"></i> إعادة تعيين كلمة المرور</h2>
-        <p>أدخل كلمة المرور الجديدة للحساب الخاص بك</p>
-      </div>
-
-      <div id="change-password-error" class="error-message" style="display: none; text-align: center; margin-bottom: 15px;"></div>
-      
-      <div id="current-user-info" style="background: rgba(255,136,0,0.1); padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <img id="change-pass-avatar" src="" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--color-primary);">
-          <div>
-            <div style="font-weight: bold; color: #fff;" id="change-pass-username"></div>
-            <div style="font-size: 0.85rem; color: #aaa;" id="change-pass-email"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>كلمة المرور الجديدة</label>
-        <input type="password" id="new-password" placeholder="أدخل كلمة المرور الجديدة *" required>
-        <div class="password-strength" id="new-password-strength">
-          <div class="password-strength-bar"></div>
-        </div>
-        <div class="error-message" id="new-password-error"></div>
-      </div>
-
-      <div class="form-group">
-        <label>تأكيد كلمة المرور الجديدة</label>
-        <input type="password" id="confirm-new-password" placeholder="أعد إدخال كلمة المرور الجديدة *" required>
-        <div class="error-message" id="confirm-new-password-error"></div>
-      </div>
-
-      <button class="login-btn" onclick="submitPasswordChange()">
-        <i class="fas fa-save"></i> حفظ التغييرات
-      </button>
-
-      <button class="cancel-btn" onclick="closeModal('changePasswordModal')">
-        <i class="fas fa-times"></i> إلغاء
-      </button>
-    </div>
-  </div>
-
-  <div id="applyModal" class="modal">
-    <div class="apply-card-new">
-      <div class="apply-header-new">
-        <h2>نموذج التقديم / APPLICATION FORM</h2>
-        <p>يجب عليك الإجابة عن جميع الأسئلة / You must answer all questions</p>
-      </div>
-      <form onsubmit="submitApplication(event)">
-        <div class="form-group">
-          <label>الاسم الكامل / full name</label>
-          <input type="text" id="app-name" class="form-input-new" required>
-        </div>
-        <div class="form-group">
-          <label>الايميل / email</label>
-          <input type="email" id="app-email" class="form-input-new" required>
-        </div>
-        <div class="form-group">
-          <label>الوظيفة المطلوبة / Desired Position</label>
-          <input type="text" id="app-position" class="form-input-new" value="PROJECT MANAGER" readonly>
-        </div>
-        <div class="form-group">
-          <label>السيرة الذاتية أو ملف التعريف / CV or Portfolio</label>
-          <input type="text" id="app-portfolio" class="form-input-new" placeholder="رابط / Link" required>
-        </div>
-        <div class="form-group">
-          <label>نبذة شخصية / about you</label>
-          <textarea id="app-about" class="form-input-new" style="height:120px; resize:vertical;" required></textarea>
-        </div>
-        <button type="submit" class="submit-btn-new">
-          <span>إرسال التقديم / SUBMIT APPLICATION</span>
-        </button>
-      </form>
-      <p class="close-text" onclick="closeModal('applyModal')">إغلاق</p>
-    </div>
-  </div>
-
-  <div class="loading-overlay" id="discordLoader">
-    <div class="discord-loader">
-      <i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;"></i>
-      <div>
-        <h3>جاري الاتصال بـ Discord...</h3>
-      </div>
-    </div>
-  </div>
 
   <script>
     // ==================== المتغيرات العامة ====================
@@ -2625,13 +2952,13 @@
     }
 
     // ==================== وظائف المودال ====================
-    function openLogin() {
+    function openLogin() { window.location.href = "./store.html"; return; //
       closeAllModals();
       document.getElementById('loginModal').style.display = 'flex';
       resetLoginForm();
     }
 
-    function openRegister() {
+    function openRegister() { return; //
       closeAllModals();
       document.getElementById('registerModal').style.display = 'flex';
       resetRegisterForm();
@@ -2892,7 +3219,7 @@
     }
 
     // ==================== وظائف المصادقة ====================
-    function startDiscordAuth() {
+    function startDiscordAuth() { return; //
         closeModal('loginModal');
         showNotification('جاري التحويل إلى Discord...', 'info');
         
@@ -3217,7 +3544,7 @@
       localStorage.setItem('mcstate_applications', JSON.stringify(applications));
 
       setTimeout(() => {
-        btn.innerHTML = "<span>تم الإرسال بنجاح! ✅</span>";
+        btn.innerHTML = "<span>تم الإرسال بنجاح! <i class='fas fa-check-circle'></i></span>";
         setTimeout(() => {
           closeModal('applyModal');
           btn.innerHTML = originalText;
@@ -3509,6 +3836,257 @@
         overlay.remove();
       }, 4200);
     })();
+
+    // ==================== دوال التقديمات ====================
+    // Firebase Config
+    const firebaseConfigApp = {
+        apiKey: "AIzaSyCHSSG-H8lARcSScKc6WX2xiYy5W5FmzUI",
+        authDomain: "mcstate-51aff.firebaseapp.com",
+        projectId: "mcstate-51aff",
+        storageBucket: "mcstate-51aff.firebasestorage.app",
+        messagingSenderId: "938934256525",
+        appId: "1:938934256525:web:415533592415996921f3c4"
+    };
+
+    // Initialize Firebase for applications if not already
+    if (!window.firebaseAppInitialized) {
+        const script1 = document.createElement('script');
+        script1.src = 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js';
+        document.head.appendChild(script1);
+        
+        const script2 = document.createElement('script');
+        script2.src = 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js';
+        document.head.appendChild(script2);
+    }
+
+    const applicationWebhooks = {
+      military: 'https://discord.com/api/webhooks/1469794167654977880/EMpDHsKy5kKHontJ-3HL0Jb_Eg_Pm33g9YJC6edtT02cZ2mVlCCdU6g1S5Q8MK0SFrUB',
+      admin: 'https://discord.com/api/webhooks/1469794406663061575/Vws8RIyPV7u0is2ywCD9teGhg8jmLTjIyQbQlD4U-alfPYYmkWOFOqh2ozNdwX0PRI0M',
+      streamer: 'https://discord.com/api/webhooks/1469793842092966201/6ZAxVEHYVaRpAUh-sOIh3DNN9l4l62a_dDwlDsgLMvADuCuIiyz-M9LNsnSaSnchqrud'
+    };
+
+    function openApplicationModal(type) {
+      document.getElementById('modal-' + type).style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeApplicationModal(type) {
+      document.getElementById('modal-' + type).style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Close on click outside
+    ['military', 'admin', 'streamer'].forEach(type => {
+      document.getElementById('modal-' + type).addEventListener('click', function(e) {
+        if (e.target === this) closeApplicationModal(type);
+      });
+    });
+
+    async function submitApplicationForm(event, type) {
+      event.preventDefault();
+      
+      // Get logged in user
+      const savedUser = localStorage.getItem('mcstate_user');
+      let userMention = '';
+      let userId = '';
+      if (savedUser) {
+        const user = JSON.parse(savedUser);
+        userId = user.id;
+        userMention = `<@${user.id}>`;
+      }
+      
+      let embed;
+      let submitBtn;
+
+      if (type === 'military') {
+        submitBtn = document.getElementById('mil-submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+        
+        embed = {
+          title: '📋 تقديم جديد - العسكرية',
+          color: 0x00d4aa,
+          fields: [
+            { name: '👤 الاسم', value: document.getElementById('mil-name').value, inline: true },
+            { name: '🎮 اسم الشخصية', value: document.getElementById('mil-character').value, inline: true },
+            { name: '💬 الديسكورد', value: document.getElementById('mil-discord').value, inline: true },
+            { name: '🎂 العمر', value: document.getElementById('mil-age').value + ' سنة', inline: true },
+            { name: '🔗 حساب Discord', value: userMention || 'غير مسجل دخول', inline: true }
+          ],
+          footer: { text: 'MC State - تقديم العسكرية' },
+          timestamp: new Date().toISOString()
+        };
+      } else if (type === 'admin') {
+        submitBtn = document.getElementById('adm-submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+        
+        embed = {
+          title: '📋 تقديم جديد - الإدارة',
+          color: 0x00d4aa,
+          fields: [
+            { name: '👤 الاسم', value: document.getElementById('adm-name').value, inline: true },
+            { name: '💬 الديسكورد', value: document.getElementById('adm-discord').value, inline: true },
+            { name: '🎂 العمر', value: document.getElementById('adm-age').value + ' سنة', inline: true },
+            { name: '📝 الخبرات الإدارية', value: document.getElementById('adm-experience').value, inline: false },
+            { name: '❓ سبب التقديم', value: document.getElementById('adm-reason').value, inline: false },
+            { name: '🔄 إداري سابق؟', value: document.getElementById('adm-previous').value, inline: true },
+            { name: '🔗 حساب Discord', value: userMention || 'غير مسجل دخول', inline: true }
+          ],
+          footer: { text: 'MC State - تقديم الإدارة' },
+          timestamp: new Date().toISOString()
+        };
+      } else if (type === 'streamer') {
+        submitBtn = document.getElementById('str-submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+        
+        embed = {
+          title: '📋 تقديم جديد - الستريمر',
+          color: 0x00d4aa,
+          fields: [
+            { name: '💬 الديسكورد', value: document.getElementById('str-discord').value, inline: true },
+            { name: '📺 المنصة', value: document.getElementById('str-platform').value, inline: true },
+            { name: '📛 اسم القناة', value: document.getElementById('str-channel').value, inline: true },
+            { name: '👥 عدد المتابعين', value: document.getElementById('str-followers').value, inline: true },
+            { name: '🔗 الرابط', value: document.getElementById('str-link').value, inline: false },
+            { name: '📝 الخبرات وما سيقدمه', value: document.getElementById('str-experience').value, inline: false },
+            { name: '🔗 حساب Discord', value: userMention || 'غير مسجل دخول', inline: true }
+          ],
+          footer: { text: 'MC State - تقديم الستريمر' },
+          timestamp: new Date().toISOString()
+        };
+      }
+
+      // Add mention content if user is logged in
+      const messageContent = userMention ? `تقديم جديد من ${userMention}` : '';
+
+      try {
+        // Send to Discord (no await to avoid CORS blocking)
+        fetch(applicationWebhooks[type], {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            content: messageContent,
+            embeds: [embed] 
+          })
+        }).catch(e => console.log('Discord webhook sent'));
+
+        // Save to Firebase/localStorage
+        const appData = {
+          type: type,
+          discord: type === 'military' ? document.getElementById('mil-discord').value : 
+                   type === 'admin' ? document.getElementById('adm-discord').value :
+                   document.getElementById('str-discord').value,
+          date: new Date().toISOString(),
+          status: 'pending'
+        };
+
+        if (type === 'military') {
+          appData.name = document.getElementById('mil-name').value;
+          appData.character = document.getElementById('mil-character').value;
+          appData.age = document.getElementById('mil-age').value;
+        } else if (type === 'admin') {
+          appData.name = document.getElementById('adm-name').value;
+          appData.age = document.getElementById('adm-age').value;
+          appData.experience = document.getElementById('adm-experience').value;
+          appData.reason = document.getElementById('adm-reason').value;
+          appData.previous = document.getElementById('adm-previous').value;
+        } else if (type === 'streamer') {
+          appData.platform = document.getElementById('str-platform').value;
+          appData.channel = document.getElementById('str-channel').value;
+          appData.followers = document.getElementById('str-followers').value;
+          appData.link = document.getElementById('str-link').value;
+          appData.experience = document.getElementById('str-experience').value;
+        }
+
+        // Save to localStorage first (always works)
+        const apps = JSON.parse(localStorage.getItem('mcstate_applications')) || [];
+        apps.unshift(appData);
+        localStorage.setItem('mcstate_applications', JSON.stringify(apps));
+
+        // Try Firebase (optional)
+        try {
+          if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) {
+            const db = firebase.firestore();
+            db.collection('applications').add(appData);
+          }
+        } catch (fbError) {
+          console.log('Firebase save skipped');
+        }
+
+        showNotification('تم إرسال التقديم بنجاح! ✅', 'success');
+        event.target.reset();
+        closeApplicationModal(type);
+      } catch (error) {
+        console.error('Error:', error);
+        showNotification('حدث خطأ، حاول مرة أخرى', 'error');
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال التقديم';
+    }
+
+    // Check if user is logged in
+    function checkUserLogin() {
+      const savedUser = localStorage.getItem('mcstate_user');
+      if (savedUser) {
+        const user = JSON.parse(savedUser);
+        // Hide login button, show user info
+        document.getElementById('login-btn').style.display = 'none';
+        document.getElementById('user-logged').style.display = 'flex';
+        document.getElementById('user-avatar-header').src = user.avatar;
+        document.getElementById('user-name-header').textContent = user.globalName || user.username;
+      }
+    }
+
+    // Logout user
+    function logoutUser() {
+      localStorage.removeItem('mcstate_user');
+      location.reload();
+    }
+
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', checkUserLogin);
+
+    // ==================== FAQ Toggle ====================
+    function toggleFaq(item) {
+      const wasActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
+      if (!wasActive) item.classList.add('active');
+    }
+
+    // ==================== Counter Animation ====================
+    function animateCounter(elementId, target, duration) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      let start = 0;
+      const increment = target / (duration / 16);
+      const suffix = target >= 1000 ? '' : '+';
+      function step() {
+        start += increment;
+        if (start >= target) {
+          el.textContent = target.toLocaleString() + suffix;
+          return;
+        }
+        el.textContent = Math.floor(start).toLocaleString() + suffix;
+        requestAnimationFrame(step);
+      }
+      step();
+    }
+
+    // Start counters when home page is visible
+    let countersStarted = false;
+    function startCounters() {
+      if (countersStarted) return;
+      countersStarted = true;
+      animateCounter('counterPlayers', 1500, 2000);
+      animateCounter('counterMembers', 3000, 2000);
+      animateCounter('counterStaff', 25, 1500);
+    }
+
+    // Run counters after preloader
+    setTimeout(startCounters, 4500);
   </script>
 </body>
 </html>

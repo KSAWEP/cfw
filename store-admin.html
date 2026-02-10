@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC State - إدارة المتجر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0f14;
+            --bg-darker: #060a0d;
+            --bg-card: #12171c;
+            --orange: #00d4aa;
+            --orange-dark: #00b894;
+            --text-white: #ffffff;
+            --text-gray: #8a8f98;
+            --border-color: #1e2428;
+            --success: #28a745;
+            --danger: #dc3545;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .sidebar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: var(--bg-card);
+            border-left: 1px solid var(--border-color);
+            padding: 20px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .sidebar-header img { width: 45px; height: 45px; border-radius: 50%; }
+        .sidebar-header h2 { font-size: 18px; color: var(--orange); }
+
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 8px; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            color: var(--text-gray);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--orange);
+        }
+
+        .main-content {
+            margin-right: 260px;
+            padding: 30px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title { font-size: 28px; font-weight: 800; }
+        .page-title .material-icons { color: var(--orange); vertical-align: middle; margin-left: 10px; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-card h3 { font-size: 32px; margin-bottom: 5px; }
+        .stat-card p { color: var(--text-gray); font-size: 14px; }
+        .stat-card.orange h3 { color: var(--orange); }
+        .stat-card.green h3 { color: var(--success); }
+        .stat-card.red h3 { color: var(--danger); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary { background: var(--orange); color: white; }
+        .btn-primary:hover { background: var(--orange-dark); }
+        .btn-secondary { background: var(--bg-card); color: var(--text-white); border: 1px solid var(--border-color); }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 { font-size: 18px; display: flex; align-items: center; gap: 10px; }
+
+        .search-box { position: relative; width: 300px; }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-white);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .search-box input:focus { outline: none; border-color: var(--orange); }
+        .search-box .material-icons { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-gray); }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px 20px; text-align: right; border-bottom: 1px solid var(--border-color); }
+        th { background: var(--bg-darker); font-weight: 700; color: var(--text-gray); font-size: 13px; }
+        tr:hover { background: rgba(0, 212, 170, 0.05); }
+        .product-img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .badge-success { background: rgba(40, 167, 69, 0.2); color: var(--success); }
+        .badge-danger { background: rgba(220, 53, 69, 0.2); color: var(--danger); }
+
+        .actions { display: flex; gap: 8px; }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .action-btn .material-icons { font-size: 18px; }
+        .action-btn.edit { background: rgba(0, 212, 170, 0.2); color: var(--orange); }
+        .action-btn.delete { background: rgba(220, 53, 69, 0.2); color: var(--danger); }
+        .action-btn:hover { transform: scale(1.1); }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal {
+            background: var(--bg-card);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 { font-size: 20px; }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .modal-close:hover { color: var(--danger); }
+        .modal-body { padding: 25px; }
+        .modal-footer { padding: 20px 25px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-white);
+            font-family: 'Cairo', sans-serif;
+            font-size: 15px;
+        }
+
+        .form-control:focus { outline: none; border-color: var(--orange); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-check { display: flex; align-items: center; gap: 10px; }
+        .form-check input { accent-color: var(--orange); width: 18px; height: 18px; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: var(--bg-card);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border-right: 4px solid var(--success);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 2000;
+        }
+
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-right: 0; }
+            .form-row { grid-template-columns: 1fr; }
+            .search-box { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="./logo.webp" alt="MC State" onerror="this.src='https://via.placeholder.com/45/00d4aa/fff?text=MC'">
+            <h2>إدارة المتجر</h2>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item"><a class="nav-link active"><span class="material-icons">inventory_2</span><span>المنتجات</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="./store.html"><span class="material-icons">store</span><span>عرض المتجر</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="./index.html"><span class="material-icons">home</span><span>الرئيسية</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title"><span class="material-icons">inventory_2</span>إدارة المنتجات</h1>
+            <button class="btn btn-primary" onclick="openModal()"><span class="material-icons">add</span>إضافة منتج</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card orange"><h3 id="totalProducts">0</h3><p>إجمالي المنتجات</p></div>
+            <div class="stat-card green"><h3 id="inStockProducts">0</h3><p>متوفر</p></div>
+            <div class="stat-card red"><h3 id="outOfStockProducts">0</h3><p>نفذت الكمية</p></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3><span class="material-icons">list</span>قائمة المنتجات</h3>
+                <div class="search-box">
+                    <span class="material-icons">search</span>
+                    <input type="text" id="searchInput" placeholder="بحث..." oninput="filterProducts()">
+                </div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr><th>الصورة</th><th>اسم المنتج</th><th>التصنيف</th><th>السعر</th><th>الحالة</th><th>الإجراءات</th></tr>
+                    </thead>
+                    <tbody id="productsTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">إضافة منتج جديد</h3>
+                <button class="modal-close" onclick="closeModal()"><span class="material-icons">close</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="form-group">
+                        <label>اسم المنتج</label>
+                        <input type="text" class="form-control" id="productName" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>السعر ($)</label>
+                            <input type="number" class="form-control" id="productPrice" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>التصنيف</label>
+                            <select class="form-control" id="productCategory">
+                                <option value="الباندات">الباندات</option>
+                                <option value="المتاجر">المتاجر</option>
+                                <option value="السيارات">السيارات</option>
+                                <option value="العقارات">العقارات</option>
+                                <option value="العصابات">العصابات</option>
+                                <option value="الشخصيات">الشخصيات</option>
+                                <option value="خدمات">خدمات</option>
+                                <option value="الأولوية">الأولوية</option>
+                                <option value="بكجات الداعمين">بكجات الداعمين</option>
+                                <option value="لوحات">لوحات</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>رابط الصورة</label>
+                        <input type="url" class="form-control" id="productImage" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" id="productInStock" checked>
+                            <label for="productInStock">متوفر في المخزون</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="saveProduct()">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHSSG-H8lARcSScKc6WX2xiYy5W5FmzUI",
+            authDomain: "mcstate-51aff.firebaseapp.com",
+            projectId: "mcstate-51aff",
+            storageBucket: "mcstate-51aff.firebasestorage.app",
+            messagingSenderId: "938934256525",
+            appId: "1:938934256525:web:415533592415996921f3c4",
+            measurementId: "G-G7GC7G0J03"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const defaultProducts = [
+            { id: 1, name: "فك باند", price: 15.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/fRVZTQqfTh4BNwBabwODAbtVSwN4oZtaz1POer3E.png", category: "الباندات", inStock: true },
+            { id: 2, name: "فك باند نهائي", price: 40.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/eZVJuhUkBNzs7kp3D1GsLTqEmLSm69WeUBSoCMpV.png", category: "الباندات", inStock: true },
+            { id: 3, name: "نظام عقار", price: 100.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/Wi6pSr24hZK9Q6NojFFOm3tNu1AWGGJmIbCK0hED.png", category: "العقارات", inStock: true },
+            { id: 4, name: "معرض السيارات", price: 120.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/6blIhcNcDUK2oP7hvrgUDS8I09C7JoWIREJqyU22.png", category: "المتاجر", inStock: true },
+            { id: 5, name: "LC CUSTOMS", price: 69.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/imHhT4TnAYhVW1z4eSDplpbP28Eojg3c75NjcBto.png", category: "المتاجر", inStock: false },
+            { id: 6, name: "Car Zone Workshop", price: 45.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/ERHPb5Z3ocdpWYhDXLuu0rUJDJBuXM4n6Zt0Cfhi.png", category: "المتاجر", inStock: false },
+            { id: 7, name: "Gun shop", price: 40.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/Ubo1BYsQC1l9QhxfCcVJDsIQOwneeggmhTBYl2MH.png", category: "المتاجر", inStock: false },
+            { id: 8, name: "GUN SHOP", price: 49.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/VtYADUOiUpDkuotx1lrQr1J5x7afSM3uUlY4990S.png", category: "المتاجر", inStock: true },
+            { id: 9, name: "Burger Shot", price: 30.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/6CI5Ohg2WZuqOZGhFCZW19UWkHaePAK2RrM3Hktq.png", category: "المتاجر", inStock: false },
+            { id: 10, name: "SnrBuns", price: 35.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/LpzHdAmmWLMQzEQI4APd1YLiRsm6xEptO0UNceIu.png", category: "المتاجر", inStock: false },
+            { id: 11, name: "Atom Burger", price: 25.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/ZkpCkllzeQcyGpyYkAUFiJWizhYCpt9FTsAjvBvc.png", category: "المتاجر", inStock: true },
+            { id: 12, name: "Bean Machine", price: 45.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/dIKGuTjucCVd1Yyew4OhEq7C3ls1Hx5C4C95ywxk.png", category: "المتاجر", inStock: true },
+            { id: 13, name: "معرض سيارات", price: 88.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "المتاجر", inStock: true },
+            { id: 14, name: "BMW JEEP", price: 55.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/oI99jGYGCZfFjpy9hUpjjKsnwfAgAuhB3IPZh7OX.png", category: "السيارات", inStock: true },
+            { id: 15, name: "2021 Ford Bronco", price: 29.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/2PXJqRS8d6zYpoIklX0lOfJ0wIUsQA308cDJnnYW.png", category: "السيارات", inStock: true },
+            { id: 16, name: "BMW M4", price: 49.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/GKaIehNfclXdT0GJXgSuYonDP9U2wazVlLxU3tqt.png", category: "السيارات", inStock: true },
+            { id: 17, name: "Raptor F-150", price: 34.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/j1CR6RTOJwn2hnW4ZfSollqwPjLmi3VO6SvoS3TZ.png", category: "السيارات", inStock: true },
+            { id: 18, name: "Mercedes G-Class Gv12", price: 69.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/8i1JyvJIx2XiMzOYcbfTrXFdASnSWIOxcfhEsJL1.png", category: "السيارات", inStock: true },
+            { id: 19, name: "Dodge Charger SRT", price: 35.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/Hs4yW9FEgmCcPuWtUTE74qwlzGHoKZ71qRnaKnF4.png", category: "السيارات", inStock: true },
+            { id: 20, name: "Dodge Charger SRT", price: 30.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/KlF7NedpkFzxKEkKFREOJvPs7ttyWjuk0vFb0GX1.png", category: "السيارات", inStock: true },
+            { id: 21, name: "E63 AMG", price: 35.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/4w1Nk75pHrsmEKcJhzWoa6bG1TAcDkQASQ1SfeYb.jpg", category: "السيارات", inStock: true },
+            { id: 22, name: "Ford Mustang", price: 35.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/DNhvyapiM12vzPsDvZSnceOa7z0oFMAUBTSaAXnv.png", category: "السيارات", inStock: true },
+            { id: 23, name: "BMW M4", price: 45.55, image: "https://kyn.fra1.digitaloceanspaces.com/images/x0QWnhNyVZHwbYdNAgtP00kx82Bsrf44Gst2HUr1.jpg", category: "السيارات", inStock: true },
+            { id: 24, name: "Dodge Challenger", price: 39.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/rZq03M7uUWInhrGtYClkrBAzcWYE65TrgfTfsX5U.png", category: "السيارات", inStock: true },
+            { id: 25, name: "Lamborghini Urus Mansory", price: 75.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/lb6ecWIk4TyCuwGOYirNUwDifr4PL62GyBDC6cI1.png", category: "السيارات", inStock: true },
+            { id: 26, name: "GTR", price: 59.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/waZzz5HBgDmIeoQelVwW3Y2QRSfEzoCNfHgOGJoM.png", category: "السيارات", inStock: true },
+            { id: 27, name: "Mercedes BENZ", price: 74.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/UMKSAqLiMrCOVb0SnJqqOSB5SbS4ysJcq9KjreQ5.png", category: "السيارات", inStock: true },
+            { id: 28, name: "Rolls Royce", price: 35.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/GM1EbHLnb6HUBY3kTg28umYxLvwFZWaTR96KVVRK.png", category: "السيارات", inStock: true },
+            { id: 29, name: "لوحات مواتر", price: 15.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/4OVKr7J3Irhb6sbzP2riCtnDUHpiDLhM5zpwRXAX.png", category: "لوحات", inStock: true },
+            { id: 30, name: "ارقام جولات", price: 10.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/z0RIFhiUVFjnomPo9KQPJ5T0KqtuW9qWXk9XDNDL.png", category: "لوحات", inStock: true },
+            { id: 31, name: "بيت خاص من اختيارك", price: 40.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "العقارات", inStock: true },
+            { id: 32, name: "عصابه خاصة", price: 60.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/t6Q5FRJJgwxCwk4luO2KOAgub4tIBhuB9F1mZ6Ng.png", category: "العصابات", inStock: true },
+            { id: 33, name: "اضافة شخصية", price: 5.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/riFkvfjiTrjj1FtCZ6BFh8hdpCtaRbwEQ4q6OCt0.png", category: "الشخصيات", inStock: true },
+            { id: 34, name: "حذف الشخصية", price: 4.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/CzGU27IjnpyFPCj48kPDJhI8fLB1Qb039F2wXij2.png", category: "الشخصيات", inStock: true },
+            { id: 35, name: "تغير الأسم", price: 3.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/1wiyEDET59mRFkiUGX8t21EbVsuQkdlr4rNPlOsE.png", category: "الشخصيات", inStock: true },
+            { id: 36, name: "خدمه تفعيل فوريه", price: 9.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/BHytxfF4mccVcFNVfcZWPtT5vGZmkqkoygY5GZeo.png", category: "خدمات", inStock: true },
+            { id: 37, name: "اولوية فورية لمدة أسبوع", price: 14.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/KIU0FoBPH0Y1pwJE3gC4kdOQLEdAr8nKk76q2YZd.png", category: "الأولوية", inStock: true },
+            { id: 38, name: "اولوية فورية لمدة يوم", price: 4.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/RgyLzLOTbTZVEOorePoVZJDEOGoLKe35YBUhbxmP.png", category: "الأولوية", inStock: true },
+            { id: 39, name: "خدمة تفعيل لتحت 16 سنة", price: 9.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "خدمات", inStock: true },
+            { id: 40, name: "Partner", price: 199.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/Epg4BW48mfKZgeJQoLiIoSUgnTdU2ZEtctl9DK3S.png", category: "بكجات الداعمين", inStock: true },
+            { id: 41, name: "Bronze Package", price: 30.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/V6a82uL94D04IXC78Asg8aXA2rNRfTDO5JnSP8at.png", category: "بكجات الداعمين", inStock: true },
+            { id: 42, name: "Silver Package", price: 34.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/y4OsRBDIFlLLb5JQPnrKaPN2pttiunFQZAO5FYts.png", category: "بكجات الداعمين", inStock: true },
+            { id: 43, name: "Gold Package", price: 49.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/uQUmnjEwu6QqpVLoV8A7RlZ79wZis4cvNHFRZDWm.png", category: "بكجات الداعمين", inStock: true },
+            { id: 44, name: "Diamond Package", price: 69.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/PdtWiwEXsjQKnAaLK6wbesz7QpyZDdQYBTIEpayH.png", category: "بكجات الداعمين", inStock: true },
+            { id: 45, name: "Diamond 2 Package", price: 148.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/rC5uEJdVxIvfI3wfVIteKrF0sOOKkVtffPntRPg3.png", category: "بكجات الداعمين", inStock: true },
+            { id: 46, name: "حقيبة متنقلة", price: 14.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/8TzBndcTlBjAy4euuGsD7ZPs2o6mqENctCBGleHp.png", category: "خدمات", inStock: true },
+            { id: 47, name: "خدمة تركيب ملف", price: 49.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "خدمات", inStock: true },
+            { id: 48, name: "فلوس داخل السيرفر", price: 9.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "خدمات", inStock: true },
+            { id: 49, name: "𝐌𝐀𝐙𝐀𝐃", price: 5.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/o3VqGchhBqXkhjaeythknierIkxSHKzMP4Cc2X81.png", category: "خدمات", inStock: true }
+        ];
+
+        let products = [];
+
+        // Load products from Firebase
+        async function loadProducts() {
+            try {
+                const snapshot = await db.collection('products').get();
+                if (snapshot.empty) {
+                    // First time - upload default products
+                    for (const p of defaultProducts) {
+                        await db.collection('products').doc(p.id.toString()).set(p);
+                    }
+                    products = defaultProducts;
+                } else {
+                    products = [];
+                    snapshot.forEach(doc => {
+                        products.push(doc.data());
+                    });
+                }
+                renderProducts();
+            } catch (error) {
+                console.error('Firebase Error:', error);
+                products = defaultProducts;
+                renderProducts();
+                showToast('خطأ في الاتصال بقاعدة البيانات');
+            }
+        }
+
+        function renderProducts(filtered = null) {
+            const data = filtered || products;
+            document.getElementById('totalProducts').textContent = products.length;
+            document.getElementById('inStockProducts').textContent = products.filter(p => p.inStock).length;
+            document.getElementById('outOfStockProducts').textContent = products.filter(p => !p.inStock).length;
+
+            document.getElementById('productsTable').innerHTML = data.map(p => `
+                <tr>
+                    <td><img src="${p.image}" class="product-img" onerror="this.src='https://via.placeholder.com/50/12171c/00d4aa?text=MC'"></td>
+                    <td>${p.name}</td>
+                    <td>${p.category}</td>
+                    <td>$${p.price.toFixed(2)}</td>
+                    <td>${p.inStock ? '<span class="badge badge-success">متوفر</span>' : '<span class="badge badge-danger">نفذت</span>'}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn edit" onclick="editProduct(${p.id})"><span class="material-icons">edit</span></button>
+                            <button class="action-btn delete" onclick="deleteProduct(${p.id})"><span class="material-icons">delete</span></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterProducts() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(search) || p.category.toLowerCase().includes(search));
+            renderProducts(filtered);
+        }
+
+        function openModal(id = null) {
+            document.getElementById('modalTitle').textContent = id ? 'تعديل المنتج' : 'إضافة منتج جديد';
+            document.getElementById('productForm').reset();
+            document.getElementById('productId').value = '';
+            document.getElementById('productInStock').checked = true;
+
+            if (id) {
+                const p = products.find(x => x.id === id);
+                if (p) {
+                    document.getElementById('productId').value = p.id;
+                    document.getElementById('productName').value = p.name;
+                    document.getElementById('productPrice').value = p.price;
+                    document.getElementById('productCategory').value = p.category;
+                    document.getElementById('productImage').value = p.image;
+                    document.getElementById('productInStock').checked = p.inStock;
+                }
+            }
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function closeModal() { document.getElementById('productModal').classList.remove('active'); }
+        function editProduct(id) { openModal(id); }
+
+        async function saveProduct() {
+            const id = document.getElementById('productId').value;
+            const product = {
+                id: id ? parseInt(id) : Date.now(),
+                name: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                category: document.getElementById('productCategory').value,
+                image: document.getElementById('productImage').value || 'https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png',
+                inStock: document.getElementById('productInStock').checked
+            };
+
+            if (!product.name || !product.price) { showToast('يرجى ملء جميع الحقول'); return; }
+
+            try {
+                await db.collection('products').doc(product.id.toString()).set(product);
+                
+                if (id) {
+                    const index = products.findIndex(p => p.id === parseInt(id));
+                    products[index] = product;
+                    showToast('تم تعديل المنتج ✅');
+                } else {
+                    products.push(product);
+                    showToast('تم إضافة المنتج ✅');
+                }
+
+                closeModal();
+                renderProducts();
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('حدث خطأ في الحفظ');
+            }
+        }
+
+        async function deleteProduct(id) {
+            if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+                try {
+                    await db.collection('products').doc(id.toString()).delete();
+                    products = products.filter(p => p.id !== id);
+                    renderProducts();
+                    showToast('تم حذف المنتج ✅');
+                } catch (error) {
+                    console.error('Error:', error);
+                    showToast('حدث خطأ في الحذف');
+                }
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+        
+        // Load products on start
+        loadProducts();
+    </script>
+</body>
+</html>

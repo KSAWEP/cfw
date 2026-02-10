@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رفع المنتجات لـ Firebase</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0a0f14; color: white; padding: 40px; text-align: center; }
+        h1 { color: #00d4aa; }
+        .btn { padding: 20px 40px; font-size: 20px; background: #00d4aa; color: white; border: none; border-radius: 10px; cursor: pointer; margin: 20px; }
+        .btn:hover { background: #00b894; }
+        #status { margin-top: 30px; padding: 20px; background: #12171c; border-radius: 10px; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <h1>🔥 رفع المنتجات لـ Firebase</h1>
+    <p>اضغط الزر لرفع جميع الـ 49 منتج</p>
+    
+    <button class="btn" onclick="uploadProducts()">رفع المنتجات الآن</button>
+    <button class="btn" onclick="deleteAllProducts()" style="background:#dc3545">حذف كل المنتجات</button>
+    
+    <div id="status"></div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHSSG-H8lARcSScKc6WX2xiYy5W5FmzUI",
+            authDomain: "mcstate-51aff.firebaseapp.com",
+            projectId: "mcstate-51aff",
+            storageBucket: "mcstate-51aff.firebasestorage.app",
+            messagingSenderId: "938934256525",
+            appId: "1:938934256525:web:415533592415996921f3c4"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const products = [
+            { id: 1, name: "فك باند", price: 15.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/fRVZTQqfTh4BNwBabwODAbtVSwN4oZtaz1POer3E.png", category: "الباندات", inStock: true },
+            { id: 2, name: "فك باند نهائي", price: 40.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/eZVJuhUkBNzs7kp3D1GsLTqEmLSm69WeUBSoCMpV.png", category: "الباندات", inStock: true },
+            { id: 3, name: "نظام عقار", price: 100.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/Wi6pSr24hZK9Q6NojFFOm3tNu1AWGGJmIbCK0hED.png", category: "العقارات", inStock: true },
+            { id: 4, name: "معرض السيارات", price: 120.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/6blIhcNcDUK2oP7hvrgUDS8I09C7JoWIREJqyU22.png", category: "المتاجر", inStock: true },
+            { id: 5, name: "LC CUSTOMS", price: 69.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/imHhT4TnAYhVW1z4eSDplpbP28Eojg3c75NjcBto.png", category: "المتاجر", inStock: true },
+            { id: 6, name: "Car Zone Workshop", price: 45.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/ERHPb5Z3ocdpWYhDXLuu0rUJDJBuXM4n6Zt0Cfhi.png", category: "المتاجر", inStock: true },
+            { id: 7, name: "Gun shop", price: 40.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/Ubo1BYsQC1l9QhxfCcVJDsIQOwneeggmhTBYl2MH.png", category: "المتاجر", inStock: true },
+            { id: 8, name: "GUN SHOP", price: 49.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/VtYADUOiUpDkuotx1lrQr1J5x7afSM3uUlY4990S.png", category: "المتاجر", inStock: true },
+            { id: 9, name: "Burger Shot", price: 30.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/6CI5Ohg2WZuqOZGhFCZW19UWkHaePAK2RrM3Hktq.png", category: "المتاجر", inStock: true },
+            { id: 10, name: "SnrBuns", price: 35.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/LpzHdAmmWLMQzEQI4APd1YLiRsm6xEptO0UNceIu.png", category: "المتاجر", inStock: true },
+            { id: 11, name: "Atom Burger", price: 25.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/ZkpCkllzeQcyGpyYkAUFiJWizhYCpt9FTsAjvBvc.png", category: "المتاجر", inStock: true },
+            { id: 12, name: "Bean Machine", price: 45.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/dIKGuTjucCVd1Yyew4OhEq7C3ls1Hx5C4C95ywxk.png", category: "المتاجر", inStock: true },
+            { id: 13, name: "معرض سيارات", price: 88.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "المتاجر", inStock: true },
+            { id: 14, name: "BMW JEEP", price: 55.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/oI99jGYGCZfFjpy9hUpjjKsnwfAgAuhB3IPZh7OX.png", category: "السيارات", inStock: true },
+            { id: 15, name: "2021 Ford Bronco", price: 29.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/2PXJqRS8d6zYpoIklX0lOfJ0wIUsQA308cDJnnYW.png", category: "السيارات", inStock: true },
+            { id: 16, name: "BMW M4", price: 49.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/GKaIehNfclXdT0GJXgSuYonDP9U2wazVlLxU3tqt.png", category: "السيارات", inStock: true },
+            { id: 17, name: "Raptor F-150", price: 34.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/j1CR6RTOJwn2hnW4ZfSollqwPjLmi3VO6SvoS3TZ.png", category: "السيارات", inStock: true },
+            { id: 18, name: "Mercedes G-Class Gv12", price: 69.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/8i1JyvJIx2XiMzOYcbfTrXFdASnSWIOxcfhEsJL1.png", category: "السيارات", inStock: true },
+            { id: 19, name: "Dodge Charger SRT", price: 35.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/Hs4yW9FEgmCcPuWtUTE74qwlzGHoKZ71qRnaKnF4.png", category: "السيارات", inStock: true },
+            { id: 20, name: "Dodge Charger SRT", price: 30.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/KlF7NedpkFzxKEkKFREOJvPs7ttyWjuk0vFb0GX1.png", category: "السيارات", inStock: true },
+            { id: 21, name: "E63 AMG", price: 35.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/4w1Nk75pHrsmEKcJhzWoa6bG1TAcDkQASQ1SfeYb.jpg", category: "السيارات", inStock: true },
+            { id: 22, name: "Ford Mustang", price: 35.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/DNhvyapiM12vzPsDvZSnceOa7z0oFMAUBTSaAXnv.png", category: "السيارات", inStock: true },
+            { id: 23, name: "BMW M4", price: 45.55, image: "https://kyn.fra1.digitaloceanspaces.com/images/x0QWnhNyVZHwbYdNAgtP00kx82Bsrf44Gst2HUr1.jpg", category: "السيارات", inStock: true },
+            { id: 24, name: "Dodge Challenger", price: 39.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/rZq03M7uUWInhrGtYClkrBAzcWYE65TrgfTfsX5U.png", category: "السيارات", inStock: true },
+            { id: 25, name: "Lamborghini Urus Mansory", price: 75.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/lb6ecWIk4TyCuwGOYirNUwDifr4PL62GyBDC6cI1.png", category: "السيارات", inStock: true },
+            { id: 26, name: "GTR", price: 59.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/waZzz5HBgDmIeoQelVwW3Y2QRSfEzoCNfHgOGJoM.png", category: "السيارات", inStock: true },
+            { id: 27, name: "Mercedes BENZ", price: 74.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/UMKSAqLiMrCOVb0SnJqqOSB5SbS4ysJcq9KjreQ5.png", category: "السيارات", inStock: true },
+            { id: 28, name: "Rolls Royce", price: 35.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/GM1EbHLnb6HUBY3kTg28umYxLvwFZWaTR96KVVRK.png", category: "السيارات", inStock: true },
+            { id: 29, name: "لوحات مواتر", price: 15.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/4OVKr7J3Irhb6sbzP2riCtnDUHpiDLhM5zpwRXAX.png", category: "لوحات", inStock: true },
+            { id: 30, name: "ارقام جولات", price: 10.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/z0RIFhiUVFjnomPo9KQPJ5T0KqtuW9qWXk9XDNDL.png", category: "لوحات", inStock: true },
+            { id: 31, name: "بيت خاص من اختيارك", price: 40.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "العقارات", inStock: true },
+            { id: 32, name: "عصابه خاصة", price: 60.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/t6Q5FRJJgwxCwk4luO2KOAgub4tIBhuB9F1mZ6Ng.png", category: "العصابات", inStock: true },
+            { id: 33, name: "اضافة شخصية", price: 5.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/riFkvfjiTrjj1FtCZ6BFh8hdpCtaRbwEQ4q6OCt0.png", category: "الشخصيات", inStock: true },
+            { id: 34, name: "حذف الشخصية", price: 4.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/CzGU27IjnpyFPCj48kPDJhI8fLB1Qb039F2wXij2.png", category: "الشخصيات", inStock: true },
+            { id: 35, name: "تغير الأسم", price: 3.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/1wiyEDET59mRFkiUGX8t21EbVsuQkdlr4rNPlOsE.png", category: "الشخصيات", inStock: true },
+            { id: 36, name: "خدمه تفعيل فوريه", price: 9.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/BHytxfF4mccVcFNVfcZWPtT5vGZmkqkoygY5GZeo.png", category: "خدمات", inStock: true },
+            { id: 37, name: "اولوية فورية لمدة أسبوع", price: 14.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/KIU0FoBPH0Y1pwJE3gC4kdOQLEdAr8nKk76q2YZd.png", category: "الأولوية", inStock: true },
+            { id: 38, name: "اولوية فورية لمدة يوم", price: 4.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/RgyLzLOTbTZVEOorePoVZJDEOGoLKe35YBUhbxmP.png", category: "الأولوية", inStock: true },
+            { id: 39, name: "خدمة تفعيل لتحت 16 سنة", price: 9.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "خدمات", inStock: true },
+            { id: 40, name: "Partner", price: 199.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/Epg4BW48mfKZgeJQoLiIoSUgnTdU2ZEtctl9DK3S.png", category: "بكجات الداعمين", inStock: true },
+            { id: 41, name: "Bronze Package", price: 30.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/V6a82uL94D04IXC78Asg8aXA2rNRfTDO5JnSP8at.png", category: "بكجات الداعمين", inStock: true },
+            { id: 42, name: "Silver Package", price: 34.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/y4OsRBDIFlLLb5JQPnrKaPN2pttiunFQZAO5FYts.png", category: "بكجات الداعمين", inStock: true },
+            { id: 43, name: "Gold Package", price: 49.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/uQUmnjEwu6QqpVLoV8A7RlZ79wZis4cvNHFRZDWm.png", category: "بكجات الداعمين", inStock: true },
+            { id: 44, name: "Diamond Package", price: 69.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/PdtWiwEXsjQKnAaLK6wbesz7QpyZDdQYBTIEpayH.png", category: "بكجات الداعمين", inStock: true },
+            { id: 45, name: "Diamond 2 Package", price: 148.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/rC5uEJdVxIvfI3wfVIteKrF0sOOKkVtffPntRPg3.png", category: "بكجات الداعمين", inStock: true },
+            { id: 46, name: "حقيبة متنقلة", price: 14.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/8TzBndcTlBjAy4euuGsD7ZPs2o6mqENctCBGleHp.png", category: "خدمات", inStock: true },
+            { id: 47, name: "خدمة تركيب ملف", price: 49.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "خدمات", inStock: true },
+            { id: 48, name: "فلوس داخل السيرفر", price: 9.99, image: "https://kyn.fra1.digitaloceanspaces.com/images/JWmu0AvMoBDYl74RJPLYDHgUWZHgrgQVCwtW8ofm.png", category: "خدمات", inStock: true },
+            { id: 49, name: "𝐌𝐀𝐙𝐀𝐃", price: 5.00, image: "https://kyn.fra1.digitaloceanspaces.com/images/o3VqGchhBqXkhjaeythknierIkxSHKzMP4Cc2X81.png", category: "خدمات", inStock: true }
+        ];
+
+        async function deleteAllProducts() {
+            const status = document.getElementById('status');
+            status.innerHTML = '<p>⏳ جاري حذف المنتجات...</p>';
+            
+            try {
+                const snapshot = await db.collection('products').get();
+                const batch = db.batch();
+                snapshot.docs.forEach(doc => batch.delete(doc.ref));
+                await batch.commit();
+                status.innerHTML = '<p class="success">✅ تم حذف جميع المنتجات!</p>';
+            } catch (error) {
+                status.innerHTML = '<p class="error">❌ خطأ: ' + error.message + '</p>';
+            }
+        }
+
+        async function uploadProducts() {
+            const status = document.getElementById('status');
+            status.innerHTML = '<p>⏳ جاري رفع المنتجات... (0/49)</p>';
+            
+            try {
+                let count = 0;
+                for (const p of products) {
+                    await db.collection('products').doc(p.id.toString()).set(p);
+                    count++;
+                    status.innerHTML = '<p>⏳ جاري رفع المنتجات... (' + count + '/49)</p>';
+                }
+                status.innerHTML = '<p class="success">✅ تم رفع جميع الـ 49 منتج بنجاح!</p><p>الآن افتح المتجر: <a href="./store.html" style="color:#00d4aa">store.html</a></p>';
+            } catch (error) {
+                status.innerHTML = '<p class="error">❌ خطأ: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>

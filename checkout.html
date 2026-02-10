@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC State - إتمام الطلب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0f14;
+            --bg-darker: #060a0d;
+            --bg-card: #12171c;
+            --orange: #00d4aa;
+            --orange-dark: #00b894;
+            --text-white: #ffffff;
+            --text-gray: #8a8f98;
+            --border-color: #1e2428;
+            --success: #28a745;
+            --danger: #dc3545;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(6, 10, 13, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo img { width: 50px; height: 50px; border-radius: 50%; }
+        .logo span { font-size: 24px; font-weight: 800; color: var(--orange); }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover { color: var(--orange); }
+
+        /* Hero */
+        .checkout-hero {
+            padding: 120px 20px 50px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-darker), var(--bg-dark));
+        }
+
+        .checkout-hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .checkout-hero h1 span { color: var(--orange); }
+        .checkout-hero p { color: var(--text-gray); }
+
+        /* Container */
+        .checkout-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px 80px;
+        }
+
+        /* Section */
+        .checkout-section {
+            background: var(--bg-card);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--bg-darker);
+            padding: 18px 25px;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header .material-icons { color: var(--orange); }
+        .section-body { padding: 25px; }
+
+        /* Order Summary */
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--bg-darker);
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .order-item:last-of-type { margin-bottom: 0; }
+
+        .order-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .order-item-info { flex: 1; }
+        .order-item-name { font-weight: 700; margin-bottom: 4px; }
+        .order-item-qty { color: var(--text-gray); font-size: 13px; }
+        .order-item-price { font-weight: 700; color: var(--orange); font-size: 18px; }
+
+        .order-totals {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+        }
+
+        .total-row.final {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--orange);
+            padding-top: 15px;
+            margin-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Account Selection */
+        .account-select-label {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: block;
+            color: var(--text-white);
+        }
+
+        .account-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .account-option {
+            flex: 1;
+            background: var(--bg-darker);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .account-option:hover {
+            border-color: var(--orange);
+        }
+
+        .account-option.active {
+            border-color: var(--orange);
+            background: rgba(0, 212, 170, 0.1);
+        }
+
+        .account-option .bank-name {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .account-option .holder-name {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .account-option.active .bank-name {
+            color: var(--orange);
+        }
+
+        /* Account Info */
+        .account-info {
+            display: none;
+            background: var(--bg-darker);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .account-info.active { display: block; }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-row:last-child { border-bottom: none; }
+        .info-row:nth-child(odd) { background: rgba(255, 255, 255, 0.02); }
+
+        .info-label {
+            color: var(--text-gray);
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            direction: ltr;
+        }
+
+        .copy-btn {
+            background: var(--orange);
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover { background: var(--orange-dark); }
+
+        /* Upload Section */
+        .upload-label {
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover { border-color: var(--orange); }
+
+        .upload-area.has-file {
+            border-color: var(--success);
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .upload-area .material-icons {
+            font-size: 48px;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+        }
+
+        .upload-area.has-file .material-icons { color: var(--success); }
+
+        .upload-area p { color: var(--text-gray); }
+
+        .upload-area .file-name {
+            color: var(--success);
+            font-weight: 700;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .upload-area.has-file .file-name { display: block; }
+
+        .upload-input { display: none; }
+
+        /* Sender Input */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 10px; }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--bg-darker);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-white);
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--orange);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--orange);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover { background: var(--orange-dark); transform: translateY(-2px); }
+        .submit-btn:disabled { background: var(--text-gray); cursor: not-allowed; transform: none; }
+
+        /* Success Message */
+        .success-container {
+            display: none;
+            text-align: center;
+            padding: 60px 30px;
+        }
+
+        .success-container .material-icons {
+            font-size: 80px;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        .success-container h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .success-container p {
+            color: var(--text-gray);
+            margin-bottom: 10px;
+        }
+
+        .success-container .order-number {
+            background: var(--bg-darker);
+            padding: 15px 30px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 20px 0;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--orange);
+        }
+
+        .success-container .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            background: var(--orange);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .success-container .btn:hover { background: var(--orange-dark); }
+
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-cart .material-icons {
+            font-size: 80px;
+            color: var(--text-gray);
+            opacity: 0.5;
+            margin-bottom: 20px;
+        }
+
+        .empty-cart h2 { margin-bottom: 15px; }
+        .empty-cart p { color: var(--text-gray); margin-bottom: 25px; }
+
+        .empty-cart .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            background: var(--orange);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            border-right: 4px solid var(--success);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            z-index: 5000;
+            opacity: 0;
+            transition: all 0.4s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 15px 20px; }
+            .checkout-hero h1 { font-size: 28px; }
+            .account-options { flex-direction: column; }
+            .info-row { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="./store.html" class="logo">
+            <img src="./logo.webp" alt="MC State" onerror="this.src='https://via.placeholder.com/50/00d4aa/fff?text=MC'">
+            <span>MC State</span>
+        </a>
+        <a href="./store.html" class="back-btn">
+            <span class="material-icons">arrow_forward</span>
+            العودة للمتجر
+        </a>
+    </header>
+
+    <!-- Hero -->
+    <section class="checkout-hero">
+        <h1>إتمام <span>الطلب</span></h1>
+        <p>أكمل بيانات الدفع لإتمام طلبك</p>
+    </section>
+
+    <!-- Checkout Container -->
+    <div class="checkout-container" id="checkoutMain">
+        <!-- Order Summary -->
+        <div class="checkout-section">
+            <div class="section-header">
+                <span class="material-icons">shopping_cart</span>
+                ملخص الطلب
+            </div>
+            <div class="section-body">
+                <div id="orderItems"></div>
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>المجموع الفرعي:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>المجموع الكلي:</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="checkout-section">
+            <div class="section-header">
+                <span class="material-icons">account_balance</span>
+                طريقة الدفع
+            </div>
+            <div class="section-body">
+                <label class="account-select-label">اختر حساب التاجر</label>
+                
+                <div class="account-options">
+                    <div class="account-option" onclick="selectAccount('stc')" id="option-stc">
+                        <div class="bank-name">STC Pay</div>
+                        <div class="holder-name">ياسر عبد الرحمان بن عشوي الشراري</div>
+                    </div>
+                    <div class="account-option" onclick="selectAccount('rajhi')" id="option-rajhi">
+                        <div class="bank-name">الراجحي</div>
+                        <div class="holder-name">نواف الشراري</div>
+                    </div>
+                </div>
+
+                <!-- STC Account Info -->
+                <div class="account-info" id="info-stc">
+                    <div class="info-row">
+                        <span class="info-label">اسم البنك :</span>
+                        <span class="info-value">stc</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">صاحب الحساب :</span>
+                        <span class="info-value">ياسر عبد الرحمان بن عشوي الشراري</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">رقم الحساب :</span>
+                        <span class="info-value">
+                            <button class="copy-btn" onclick="copyText('257808404')">نسخ</button>
+                            257808404
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">رقم الايبان :</span>
+                        <span class="info-value">
+                            <button class="copy-btn" onclick="copyText('SA1878000000001257808404')">نسخ</button>
+                            SA1878000000001257808404
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Rajhi Account Info -->
+                <div class="account-info" id="info-rajhi">
+                    <div class="info-row">
+                        <span class="info-label">اسم البنك :</span>
+                        <span class="info-value">راجحي</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">صاحب الحساب :</span>
+                        <span class="info-value">نواف الشراري</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">رقم الحساب :</span>
+                        <span class="info-value">
+                            <button class="copy-btn" onclick="copyText('111000010006089464128')">نسخ</button>
+                            111000010006089464128
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">رقم الايبان :</span>
+                        <span class="info-value">
+                            <button class="copy-btn" onclick="copyText('SA2780000111608019464128')">نسخ</button>
+                            SA27 8000 0111 6080 1946 4128
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Upload Receipt -->
+                <div class="form-group">
+                    <label class="upload-label">صورة الإيصال</label>
+                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('receiptFile').click()">
+                        <span class="material-icons">cloud_upload</span>
+                        <p>اضغط لرفع صورة الإيصال</p>
+                        <p class="file-name" id="fileName"></p>
+                    </div>
+                    <input type="file" id="receiptFile" class="upload-input" accept="image/*" onchange="handleFileUpload(this)">
+                </div>
+
+                <!-- Sender Name -->
+                <div class="form-group">
+                    <label>اسم صاحب الحساب الذي قام بالتحويل</label>
+                    <input type="text" class="form-control" id="senderName" placeholder="أدخل اسم المحوّل" oninput="validateForm()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="submit-btn" id="submitBtn" onclick="submitOrder()" disabled>
+            <span class="material-icons">check_circle</span>
+            إرسال الطلب
+        </button>
+    </div>
+
+    <!-- Success Message -->
+    <div class="checkout-container" id="successContainer">
+        <div class="checkout-section">
+            <div class="section-body">
+                <div class="success-container" id="successMessage">
+                    <span class="material-icons">check_circle</span>
+                    <h2>تم إرسال طلبك بنجاح! 🎉</h2>
+                    <p>سيتم مراجعة طلبك والتواصل معك عبر الديسكورد قريباً</p>
+                    <div class="order-number" id="orderNumber">MC-00000000</div>
+                    <p>احتفظ برقم الطلب للمتابعة</p>
+                    <a href="./store.html" class="btn">
+                        <span class="material-icons">store</span>
+                        العودة للمتجر
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty Cart Message -->
+    <div class="checkout-container" id="emptyCartContainer" style="display: none;">
+        <div class="checkout-section">
+            <div class="section-body">
+                <div class="empty-cart">
+                    <span class="material-icons">shopping_cart</span>
+                    <h2>السلة فارغة!</h2>
+                    <p>لم تقم بإضافة أي منتجات للسلة بعد</p>
+                    <a href="./store.html" class="btn">
+                        <span class="material-icons">store</span>
+                        تصفح المتجر
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHSSG-H8lARcSScKc6WX2xiYy5W5FmzUI",
+            authDomain: "mcstate-51aff.firebaseapp.com",
+            projectId: "mcstate-51aff",
+            storageBucket: "mcstate-51aff.firebasestorage.app",
+            messagingSenderId: "938934256525",
+            appId: "1:938934256525:web:415533592415996921f3c4"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let cart = JSON.parse(localStorage.getItem('mcstate_cart')) || [];
+        let selectedAccount = null;
+        let uploadedFile = null;
+
+        // Initialize
+        function init() {
+            if (cart.length === 0) {
+                document.getElementById('checkoutMain').style.display = 'none';
+                document.getElementById('successContainer').style.display = 'none';
+                document.getElementById('emptyCartContainer').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('successContainer').style.display = 'none';
+            renderOrderItems();
+        }
+
+        // Render order items
+        function renderOrderItems() {
+            const container = document.getElementById('orderItems');
+            container.innerHTML = cart.map(item => `
+                <div class="order-item">
+                    <img src="${item.image}" class="order-item-image" onerror="this.src='https://via.placeholder.com/60/12171c/00d4aa?text=MC'">
+                    <div class="order-item-info">
+                        <div class="order-item-name">${item.name}</div>
+                        <div class="order-item-qty">الكمية: ${item.qty}</div>
+                    </div>
+                    <div class="order-item-price">$${(item.price * item.qty).toFixed(2)}</div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            document.getElementById('subtotal').textContent = '$' + total.toFixed(2);
+            document.getElementById('total').textContent = '$' + total.toFixed(2);
+        }
+
+        // Select account
+        function selectAccount(account) {
+            selectedAccount = account;
+
+            // Update options
+            document.querySelectorAll('.account-option').forEach(el => el.classList.remove('active'));
+            document.getElementById('option-' + account).classList.add('active');
+
+            // Show account info
+            document.querySelectorAll('.account-info').forEach(el => el.classList.remove('active'));
+            document.getElementById('info-' + account).classList.add('active');
+
+            validateForm();
+        }
+
+        // Copy text
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('تم النسخ بنجاح ✓');
+            });
+        }
+
+        // Handle file upload
+        function handleFileUpload(input) {
+            if (input.files && input.files[0]) {
+                uploadedFile = input.files[0];
+                document.getElementById('fileName').textContent = uploadedFile.name;
+                document.getElementById('uploadArea').classList.add('has-file');
+                validateForm();
+            }
+        }
+
+        // Validate form
+        function validateForm() {
+            const senderName = document.getElementById('senderName').value.trim();
+            const isValid = selectedAccount && uploadedFile && senderName;
+            document.getElementById('submitBtn').disabled = !isValid;
+        }
+
+        // Submit order
+        async function submitOrder() {
+            const orderNum = 'MC-' + Date.now().toString().slice(-8);
+            const senderName = document.getElementById('senderName').value;
+            const totalAmount = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            const productsList = cart.map(i => `${i.name} (${i.qty}x)`).join('\n• ');
+
+            // Disable button
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').innerHTML = '<span class="material-icons">hourglass_empty</span> جاري الإرسال...';
+
+            try {
+                // Send to Discord Webhook
+                const webhookUrl = 'https://discord.com/api/webhooks/1469694539865391317/KlvBtF9A8QIPPguLgO5jwUzXhkuoBmGLkHkq1RrgxyOeVUot7rDSJZzV7FZJVudy1oKB';
+                
+                // Create form data for image
+                const formData = new FormData();
+                
+                // Create embed message
+                const embed = {
+                    title: '🛒 طلب جديد!',
+                    color: 0x00d4aa,
+                    fields: [
+                        { name: '📋 رقم الطلب', value: orderNum, inline: true },
+                        { name: '👤 اسم المحوّل', value: senderName, inline: true },
+                        { name: '🏦 طريقة الدفع', value: selectedAccount === 'stc' ? 'STC Pay' : 'الراجحي', inline: true },
+                        { name: '💰 المبلغ', value: `$${totalAmount.toFixed(2)}`, inline: true },
+                        { name: '📦 المنتجات', value: '• ' + productsList, inline: false }
+                    ],
+                    footer: { text: 'MC State Store' },
+                    timestamp: new Date().toISOString()
+                };
+
+                const payload = {
+                    embeds: [embed]
+                };
+
+                // Send message first
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Send image if uploaded
+                if (uploadedFile) {
+                    const imageFormData = new FormData();
+                    imageFormData.append('file', uploadedFile, 'receipt_' + orderNum + '.' + uploadedFile.name.split('.').pop());
+                    imageFormData.append('payload_json', JSON.stringify({
+                        content: `📎 **إيصال الطلب ${orderNum}**`
+                    }));
+
+                    await fetch(webhookUrl, {
+                        method: 'POST',
+                        body: imageFormData
+                    });
+                }
+
+                // Save order to Firebase
+                const orderData = {
+                    id: orderNum,
+                    customer: senderName,
+                    products: cart.map(i => i.name),
+                    amount: totalAmount,
+                    status: 'pending',
+                    paymentMethod: selectedAccount,
+                    date: new Date().toISOString()
+                };
+
+                try {
+                    await db.collection('orders').doc(orderNum).set(orderData);
+                } catch (e) {
+                    console.log('Firebase save failed, using localStorage');
+                    const orders = JSON.parse(localStorage.getItem('mcstate_orders')) || [];
+                    orders.unshift(orderData);
+                    localStorage.setItem('mcstate_orders', JSON.stringify(orders));
+                }
+
+                // Clear cart
+                localStorage.removeItem('mcstate_cart');
+
+                // Show success
+                document.getElementById('checkoutMain').style.display = 'none';
+                document.getElementById('successContainer').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('orderNumber').textContent = orderNum;
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('حدث خطأ، حاول مرة أخرى');
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('submitBtn').innerHTML = '<span class="material-icons">check_circle</span> إرسال الطلب';
+            }
+        }
+
+        // Toast
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>
